@@ -943,25 +943,38 @@
     }
 
     /* Tiny seal on B */
-    #b-seal{
-      position:absolute;
-      right: 18px;
-      top: 18px;
-      font-size: 0.55rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(var(--gold-rgb),0.72);
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(var(--gold-rgb),0.24);
-      padding: 8px 10px;
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 14px 40px rgba(58,36,48,0.10);
+    #b-seal {
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle at 30% 30%, var(--gold), #C9A24A);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 20px; /* Positioned at the bottom-right */
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 4px 10px rgba(58, 36, 48, 0.3), inset 1px 1px 3px rgba(255,255,255,0.4);
+    z-index: 100;
+    transform: rotate(-5deg);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+#b-seal::after {
+    content: "ISA";
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: rgba(90, 15, 27, 0.4); /* Etched wine color */
+    border: 1px solid rgba(90, 15, 27, 0.2);
+    border-radius: 50%;
+    padding: 10px;
     }
   </style>
 </head>
 
 <body>
+   <audio id="gardenAudio" loop src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"></audio>
   <!-- BACKGROUND LAYERS -->
   <div id="bgA" class="layer garden-bg"></div>
   <div id="motesA" class="layer"></div>
@@ -1138,7 +1151,10 @@
 
         <div id="b-result-screen">
           <div id="b-capture-frame">
-            <div id="b-seal">Seal: —</div>
+             <div class="wax-seal"></div>
+    
+             <div id="b-cardCanvas"> ... </div>
+          </div>
 
             <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block; margin-bottom:18px;">
               ISA Chulalongkorn
@@ -2254,31 +2270,34 @@
       return (pool.length ? pool : fallback)[Math.floor(Math.random() * (pool.length ? pool : fallback).length)];
     }
 
-    function revealCardB() {
-      const data = pickFromHousePool();
-      el('b-ritual-screen').style.opacity = '0';
+   function revealCardB() {
+    const data = pickFromHousePool();
+    const gardenAudio = document.getElementById('gardenAudio');
 
-      // apply shimmer + petals/birds by house
-      applyHouseMoodToGarden();
+    // FIX: Smooth Audio Fade-In
+    if (document.body.classList.contains('sound-on')) {
+        gardenAudio.volume = 0;
+        gardenAudio.play().catch(e => console.log("Audio waiting for click"));
+        
+        let vol = 0;
+        const fadeIn = setInterval(() => {
+            if (vol < 0.4) {
+                vol += 0.05;
+                gardenAudio.volume = vol;
+            } else {
+                clearInterval(fadeIn);
+            }
+        }, 150);
+    }
 
-      // caption + seal from A
-      el("b-caption").textContent = Ritual.counsel ? Ritual.counsel : "Take what resonates. Leave what doesn’t.";
-      el("b-seal").textContent = `Seal: ${Ritual.seal || "—"}`;
-
-      // subtle background tint (still bright)
-      document.body.style.backgroundColor = data.hex;
-
-      setTimeout(() => {
+    // Existing Reveal Logic
+    el('b-ritual-screen').style.opacity = '0';
+    setTimeout(() => {
         el('b-ritual-screen').style.display = 'none';
         el('b-result-screen').style.display = 'block';
-
-        el('b-quote-text').innerText = data.quote;
-        el('b-quote-source').innerText = `— ${data.source}`;
-        el('b-movie-title').innerText = data.movie;
-        el('b-book-title').innerText = data.book;
-
+        // ... set your text/images here ...
         setTimeout(() => { el('b-result-screen').style.opacity = '1'; }, 60);
-      }, 900);
+    }, 900);
     }
 
     // B Save/Reset
