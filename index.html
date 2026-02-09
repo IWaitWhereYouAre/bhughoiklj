@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Heart to Heart | ISA Chulalongkorn</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Pinyon+Script&display=swap');
-
     /* =========================
        GLOBAL TOKENS (NO BLACK)
        ========================= */
@@ -18,7 +16,6 @@
       --cream: #F8F5F0;
       --cream-2: #FBF3E6;
       --champagne: #F3E4C8;
-
       /* Deep Wine + Gold (Act I) */
       --wine: #5A0F1B;
       --wine-2: #7B1E2B;
@@ -26,19 +23,16 @@
       --gold: #D4AF37;
       --old-gold: #C9A24A;
       --ivory: #FFF2DF;
-
       /* Garden (Act II) */
       --deep-green: #1A2A1D;
       --sage: #E6EFE7;
       --blush: #E8D5D1;
-
       /* RGB helpers */
       --wine-rgb: 90,15,27;
       --wine2-rgb: 123,30,43;
       --rose-rgb: 178,30,53;
       --gold-rgb: 212,175,55;
       --green-rgb: 26,42,29;
-
       /* App base (overridden per view) */
       --bg: var(--porcelain);
       --fg: var(--ink);
@@ -46,7 +40,6 @@
       --stroke: rgba(58,36,48,0.12);
       --shadow: 0 22px 60px rgba(58,36,48,0.14);
     }
-
     html, body{
       width:100%; height:100%;
       margin:0; padding:0;
@@ -60,7 +53,6 @@
       min-height: 100svh;
       overflow: hidden;
     }
-
     /* App wrapper becomes scroll container */
     #app{
       height: 100svh;
@@ -68,7 +60,6 @@
       -webkit-overflow-scrolling: touch;
       position: relative;
     }
-
     .view{
       display:none;
       min-height: 100svh;
@@ -77,9 +68,8 @@
       padding: 22px 20px 70px;
     }
     .view.active{ display:block; }
-
     /* =========================
-       NAV (gorgeous as f*** menu)
+       NAV (gorgeous menu)
        ========================= */
     .topbar{
       width: min(1100px, 96vw);
@@ -92,7 +82,6 @@
       position: relative;
       z-index: 30;
     }
-
     .navbtn{
       border: 1px solid rgba(255,255,255,0.20);
       background: linear-gradient(135deg,
@@ -115,7 +104,6 @@
       border-color: rgba(255,255,255,0.40);
       box-shadow: 0 18px 50px rgba(58,36,48,0.16);
     }
-
     /* =========================
        LAYERS (swapped per view)
        ========================= */
@@ -127,7 +115,6 @@
       display:none;
     }
     .layer.on{ display:block; }
-
     /* Soft luxury vignette (no darkness—just depth) */
     .vignette{
       position:fixed; inset:0;
@@ -141,7 +128,6 @@
       display:none;
     }
     .vignette.on{ display:block; }
-
     /* =========================
        HOME (MERGED MENU EXPERIENCE)
        ========================= */
@@ -155,7 +141,6 @@
         radial-gradient(900px 700px at 76% 92%, rgba(232,213,209,0.28), transparent 62%),
         linear-gradient(135deg, #FFF9F0 0%, #FFF4E8 55%, #FFFDF7 100%);
     }
-
     .home-wrap{
       width: min(980px, 94vw);
       margin: 0 auto;
@@ -164,7 +149,6 @@
       position: relative;
       z-index: 10;
     }
-
     .isa-tag{
       font-size:0.62rem;
       letter-spacing:3.2px;
@@ -173,7 +157,6 @@
       text-transform:uppercase;
       color: rgba(58,36,48,0.72);
     }
-
     h1.main-title{
       font-family:'Pinyon Script', cursive;
       font-size:clamp(3.2rem, 12vw, 6.2rem);
@@ -189,7 +172,6 @@
       color: transparent;
       text-shadow: 0 18px 50px rgba(58,36,48,0.10);
     }
-
     .sub-theme{
       font-family:'Playfair Display', serif;
       font-size:clamp(0.75rem, 2vw, 1.02rem);
@@ -198,7 +180,6 @@
       margin: 10px 0 22px;
       color: rgba(58,36,48,0.62);
     }
-
     .home-grid{
       margin: 18px auto 0;
       display:grid;
@@ -207,7 +188,6 @@
       width: min(860px, 96vw);
     }
     @media (max-width: 820px){ .home-grid{ grid-template-columns: 1fr; } }
-
     .home-card{
       text-align:left;
       border-radius: 20px;
@@ -263,7 +243,6 @@
       margin-top: 12px;
       color: rgba(58,36,48,0.62);
     }
-
     /* =========================
        ACT I BACKGROUND (WINE + GOLD, STILL BRIGHT)
        ========================= */
@@ -298,9 +277,7 @@
       opacity:0.20;
       mix-blend-mode:overlay;
     }
-
     #motesA{ z-index:2; opacity:0.95; overflow:hidden; }
-
     .heart-mote{
       position:absolute;
       width:28px;
@@ -311,20 +288,17 @@
       animation: heartFloat linear infinite;
     }
     .heart-mote svg{ width:100%; height:100%; display:block; }
-
     @keyframes heartFloat{
       0%{ transform: translate3d(var(--x), 112vh, 0) rotate(var(--r)) scale(var(--s)); opacity:0; }
       12%{ opacity:0.70; }
       88%{ opacity:0.55; }
       100%{ transform: translate3d(var(--x2), -18vh, 0) rotate(calc(var(--r) + 14deg)) scale(var(--s)); opacity:0; }
     }
-
     @keyframes drift{
       0%{transform:translate(-4%,-2%) rotate(-2deg);}
       50%{transform:translate(4%,2%) rotate(2deg);}
       100%{transform:translate(-4%,-2%) rotate(-2deg);}
     }
-
     /* =========================
        ACT II BACKGROUND (CREAM GARDEN)
        ========================= */
@@ -355,7 +329,6 @@
       opacity:0.40;
       mix-blend-mode:multiply;
     }
-
     #petalsB{ z-index:2; overflow:hidden; }
     .petal{
       position:absolute;
@@ -374,7 +347,6 @@
       0%{transform:translate3d(0,-20px,0) rotate(10deg);}
       100%{transform:translate3d(0,120vh,0) rotate(260deg);}
     }
-
     #birdsB{ z-index:3; overflow:hidden; opacity:0.72; filter:blur(0.1px); }
     .bird{
       position:absolute;
@@ -398,7 +370,6 @@
       50%{transform:rotate(-18deg) scaleY(0.92);}
       100%{transform:rotate(8deg) scaleY(1);}
     }
-
     /* =========================
        EXPERIENCE A (TOKEN RITUAL) — WINE+GOLD UI (BRIGHT)
        ========================= */
@@ -407,7 +378,6 @@
       --fg: var(--ink);
       color: var(--ink);
     }
-
     #expA .container, #expB .container{
       width:100%;
       max-width:1200px;
@@ -416,19 +386,13 @@
       position: relative;
       z-index: 10;
     }
-
-    /* shared title look inside acts */
     #expA .isa-tag, #expB .isa-tag{ color: rgba(58,36,48,0.70); }
     #expA h1.main-title{
       text-shadow:none;
       background: linear-gradient(135deg, rgba(var(--gold-rgb),0.98), rgba(var(--rose-rgb),0.88), rgba(var(--wine2-rgb),0.88));
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
-
-    #expA .sub-theme{
-      color: rgba(58,36,48,0.62);
-    }
-
+    #expA .sub-theme{ color: rgba(58,36,48,0.62); }
     #expA .opening-line{
       margin: 12px auto 16px;
       max-width: 760px;
@@ -438,8 +402,7 @@
       font-style: italic;
       color: rgba(58,36,48,0.88);
     }
-
-    /* ritual bar (NO progress bar; just steps) */
+    /* ritual bar (steps only) */
     #expA .ritual-bar{
       width:min(860px, 96vw);
       margin: 10px auto 14px;
@@ -497,7 +460,6 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-
     #expA .token-top{
       width:min(980px, 96vw);
       margin: 0 auto 10px;
@@ -532,7 +494,6 @@
       background: rgba(var(--gold-rgb),0.95);
       box-shadow: 0 0 0 4px rgba(var(--gold-rgb),0.10);
     }
-
     #expA .trait-grid{
       width: min(980px, 96vw);
       margin: 0 auto;
@@ -543,7 +504,6 @@
       box-sizing:border-box;
     }
     @media (max-width: 900px){ #expA .trait-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-
     #expA .trait{
       border-radius:16px;
       border:1px solid rgba(var(--gold-rgb),0.22);
@@ -558,6 +518,7 @@
       min-height: 110px;
       color: rgba(58,36,48,0.92);
       box-shadow: 0 18px 55px rgba(58,36,48,0.10);
+      user-select:none;
     }
     #expA .trait::before{
       content:"";
@@ -595,7 +556,6 @@
       position: relative;
       z-index:2;
     }
-
     #expA .trait-meter{
       margin-top:10px;
       display:flex;
@@ -628,7 +588,6 @@
         rgba(var(--rose-rgb),0.70) 100%);
       box-shadow: 0 0 0 4px rgba(var(--gold-rgb),0.10);
     }
-
     #expA .btn, #expB .btn{
       border:1px solid rgba(var(--gold-rgb),0.28);
       padding:10px 18px;
@@ -657,12 +616,10 @@
       font-weight: 800;
     }
     #expA .btn:disabled, #expB .btn:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
-
     #expA .btn-sound.active, #expB .btn-sound.active{
       border-color: rgba(var(--gold-rgb),0.70);
       box-shadow: 0 18px 55px rgba(var(--gold-rgb),0.12);
     }
-
     #expA .tiny-note{
       font-size:0.62rem;
       opacity:0.70;
@@ -671,7 +628,6 @@
       line-height:1.35;
       color: rgba(58,36,48,0.64);
     }
-
     /* A panel */
     #expA .panel{
       width: min(820px, 94vw);
@@ -694,7 +650,6 @@
       color: rgba(58,36,48,0.92);
       margin: 10px 0 10px;
     }
-
     /* A result */
     #expA #a-result-screen{ display:none; opacity:0; transition: opacity .35s ease; }
     #expA #a-capture-frame{
@@ -723,7 +678,6 @@
       pointer-events:none;
       border-radius: 14px;
     }
-
     #expA .pill-row{
       display:flex;
       gap:8px;
@@ -742,7 +696,6 @@
       color: rgba(58,36,48,0.78);
       backdrop-filter: blur(10px);
     }
-
     /* =========================
        EXPERIENCE B (TAROT / DECK) — CREAM GARDEN
        ========================= */
@@ -757,7 +710,6 @@
       background: linear-gradient(135deg, rgba(var(--green-rgb),0.95), rgba(var(--gold-rgb),0.90));
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
-
     #expB .deck-area{
       position:relative;
       height:clamp(260px,40vh,420px);
@@ -807,7 +759,6 @@
       pointer-events:none;
       text-shadow: 0 18px 40px rgba(58,36,48,0.10);
     }
-
     /* B capture */
     #expB #b-result-screen{ display:none; opacity:0; transition:opacity .6s ease;}
     #expB #b-capture-frame{
@@ -831,7 +782,6 @@
       pointer-events:none;
       border-radius: 14px;
     }
-
     #expB .card-canvas{
       position:relative;
       width:100%;
@@ -845,7 +795,6 @@
       border: 1px solid rgba(var(--gold-rgb),0.18);
       box-shadow: 0 18px 55px rgba(58,36,48,0.08);
     }
-
     #expB .photo-frame{
       position:absolute;
       left:7.5%;
@@ -865,11 +814,8 @@
       object-fit:cover;
       display:block;
     }
-
     #expB .card-canvas[data-mode="hybrid"] .photo-frame{ display:block; }
     #expB .card-canvas[data-mode="decor"] .photo-frame{ display:none !important; }
-
-    /* shimmer overlay controlled by JS via opacity */
     #expB .card-canvas::after{
       content:"";
       position:absolute; inset:-40%;
@@ -882,7 +828,6 @@
       animation: drift 16s ease-in-out infinite;
       pointer-events:none;
     }
-
     #expB .decor-layer{ position:absolute; inset:0; pointer-events:auto; z-index:3; }
     #expB .sticker{
       position:absolute;
@@ -898,7 +843,6 @@
       font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",system-ui,sans-serif;
     }
     #expB .sticker:active{ cursor:grabbing; }
-
     #expB .decorate-panel{
       margin-top:14px;
       display:grid;
@@ -930,8 +874,6 @@
     #expB .pill input[type="file"]{font-size:0.65rem; max-width:44vw;}
     #expB .pill input[type="range"]{width:140px; max-width:40vw;}
     #expB select{font:inherit;}
-
-    /* Caption line (counsel) on B */
     #b-caption{
       margin-top: 10px;
       font-size: 0.66rem;
@@ -941,8 +883,6 @@
       line-height: 1.35;
       color: rgba(var(--green-rgb),0.72);
     }
-
-    /* Tiny seal on B */
     #b-seal{
       position:absolute;
       right: 18px;
@@ -960,58 +900,49 @@
     }
   </style>
 </head>
-
 <body>
   <!-- BACKGROUND LAYERS -->
   <div id="bgA" class="layer garden-bg"></div>
   <div id="motesA" class="layer"></div>
-
   <div id="bgB" class="layer garden-bg"></div>
   <div id="petalsB" class="layer"></div>
   <div id="birdsB" class="layer"></div>
-
   <div class="vignette" id="vignette"></div>
-
   <div id="app">
     <!-- HOME -->
     <section id="home" class="view active">
       <div class="home-wrap">
         <p class="isa-tag">ISA Chulalongkorn Presents</p>
         <h1 class="main-title">Heart to Heart</h1>
-        <p class="sub-theme">one one heart will read to the next ine .</p>
-
+        <p class="sub-theme">one heart reads into the next.</p>
         <div class="home-grid">
-          <div class="home-card" id="goA">
+          <div class="home-card" id="goA" role="button" tabindex="0">
             <p class="home-title">On One’s Heart</p>
             <p class="home-desc">
               Spend 3 tokens on traits → receive a mirror of your essence and counsel.
             </p>
           </div>
-
-          <div class="home-card" id="goB">
+          <div class="home-card" id="goB" role="button" tabindex="0">
             <p class="home-title">The Secret Garden</p>
             <p class="home-desc">
-              Shuffle with intentions → draw a card → receive a quote, a book and a movie recommendation along with the ability to decorate your card and add a photo.
+              Shuffle with intentions → draw a card → receive a quote, a book and a movie recommendation,
+              decorate your card, and optionally add a photo.
             </p>
           </div>
         </div>
-
         <p class="note">Tip: Sound begins on first tap/click. One toggle controls both rituals.</p>
       </div>
     </section>
-
     <!-- EXPERIENCE A -->
     <section id="expA" class="view">
       <div class="topbar">
         <button class="navbtn" id="a-home">← Menu</button>
       </div>
-
       <div class="container">
         <p class="isa-tag">ISA Chulalongkorn Presents</p>
         <h1 class="main-title">Heart to Heart</h1>
         <p class="sub-theme">You’re not bad at love.</p>
         <p class="opening-line">Love is learned.</p>
-
         <div class="ritual-bar" aria-label="Ritual progress">
           <div class="steps">
             <div class="step active" id="a-stepToken"><span class="step-dot"></span><span class="step-label">Tokens</span></div>
@@ -1020,14 +951,12 @@
             <div class="step" id="a-stepCounsel"><span class="step-dot"></span><span class="step-label">Counsel</span></div>
           </div>
         </div>
-
         <!-- TOKEN SCREEN -->
         <div id="a-token-screen">
           <p style="margin: 6px 0 6px; font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; opacity:0.75; color: rgba(58,36,48,0.72);">
             Spend 3 tokens on traits that feel like you
           </p>
-          <p class="tiny-note" style="margin-top:6px;">Not a test. Not fate. Just recognition.</p>
-
+          <p class="tiny-note" style="margin-top:6px;">Tap to place. Tap again to return. (Long-press / right-click removes.)</p>
           <div class="token-top">
             <div class="token-badge">
               <span>Tokens left</span>
@@ -1035,20 +964,17 @@
             </div>
             <button class="btn" id="a-tokenClear" type="button">Clear</button>
             <button class="btn btn-save" id="a-beginRecognition" type="button" disabled>Begin Recognition</button>
-            <button class="btn btn-sound active" id="a-soundBtn" type="button">Sound: On</button>
+            <button class="btn btn-sound active" id="a-soundBtnTop" type="button">Sound: On</button>
           </div>
-
           <div class="trait-grid" id="a-traitGrid"></div>
           <p class="tiny-note" id="a-tokenStatus"></p>
         </div>
-
         <!-- RECOGNITION SCREEN -->
         <div id="a-recognition-screen" style="display:none;">
           <div class="panel">
             <p style="margin: 0; font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; opacity:0.75; color: rgba(58,36,48,0.70);">Recognition</p>
             <div class="recognition-line" id="a-recognitionLine">“Love is learned before it is chosen.”</div>
             <div class="note" id="a-countdownText">Continue unlocks in 3s</div>
-
             <div style="margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
               <button class="btn" id="a-backToTokens" type="button">Back</button>
               <button class="btn btn-save" id="a-continueToSlip" type="button" disabled>Continue</button>
@@ -1056,7 +982,6 @@
             <p class="tiny-note">Take what resonates, leave what doesn’t.</p>
           </div>
         </div>
-
         <!-- RESULT SCREEN -->
         <div id="a-result-screen">
           <div id="a-capture-frame">
@@ -1068,30 +993,24 @@
               -webkit-background-clip:text; background-clip:text; color:transparent;">
               Heart to Heart
             </h2>
-
             <div class="pill-row">
               <span class="pill" id="a-pill-primary">House: —</span>
               <span class="pill" id="a-pill-secondary">Secondary: —</span>
               <span class="pill" id="a-pill-sig">Seal: —</span>
             </div>
-
             <div style="font-family:'Playfair Display',serif; font-size: clamp(1.15rem, 4vw, 1.55rem); line-height: 1.35; margin: 18px 0 12px; font-style: italic; color: rgba(58,36,48,0.92);" id="a-frontLine"></div>
-
             <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.8px solid rgba(58,36,48,0.10);">
               <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.86); display:block; margin-bottom:6px;">Articulation</span>
               <div style="font-family:'Playfair Display',serif; font-size: 1.05rem; line-height: 1.65; color: rgba(58,36,48,0.88);" id="a-articulationText"></div>
             </div>
-
             <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.8px solid rgba(58,36,48,0.10);">
               <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.86); display:block; margin-bottom:6px;">House Analysis</span>
               <div style="font-size: 0.90rem; opacity: 0.92; line-height: 1.6; color: rgba(58,36,48,0.84);" id="a-houseText"></div>
             </div>
-
             <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.8px solid rgba(58,36,48,0.10);">
               <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.86); display:block; margin-bottom:6px;">Context</span>
               <div style="font-size: 0.90rem; opacity: 0.92; line-height: 1.6; color: rgba(58,36,48,0.84);" id="a-contextText"></div>
             </div>
-
             <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.8px solid rgba(58,36,48,0.10);">
               <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.86); display:block; margin-bottom:6px;">Counsel meant for you</span>
               <div style="margin-top: 8px; padding: 14px 14px; border-radius: 14px; border: 1px solid rgba(var(--gold-rgb),0.22); background: rgba(255,255,255,0.55); position: relative;">
@@ -1099,45 +1018,38 @@
               </div>
             </div>
           </div>
-
           <div style="margin-top:22px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <button class="btn" id="a-resetBtn" type="button">Reset</button>
             <button class="btn btn-save" id="a-saveBtn" type="button">Save Picture</button>
-            <button class="btn btn-sound active" id="a-soundBtn2" type="button">Sound: On</button>
+            <button class="btn btn-sound active" id="a-soundBtnResult" type="button">Sound: On</button>
             <button class="btn" id="a-goB" type="button">Continue → Garden Deck</button>
           </div>
           <p class="tiny-note">Saved to your downloads folder</p>
         </div>
       </div>
     </section>
-
     <!-- EXPERIENCE B -->
     <section id="expB" class="view">
       <div class="topbar">
         <button class="navbtn" id="b-home">← Menu</button>
       </div>
-
       <div class="container">
         <div id="b-ritual-screen">
           <p class="isa-tag">ISA Chulalongkorn Presents</p>
           <h1 class="main-title">Heart to Heart</h1>
           <p class="sub-theme">The Secret Garden</p>
-
           <div class="deck-area" id="b-deck-container"></div>
           <p id="b-status-text" style="margin-top: 40px; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(var(--green-rgb),0.70);">
             Tap the deck to begin
           </p>
-
           <div style="margin-top:18px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
-            <button class="btn btn-sound active" id="b-soundBtn" type="button">Sound: On</button>
+            <button class="btn btn-sound active" id="b-soundBtnTop" type="button">Sound: On</button>
           </div>
           <p class="note">(One toggle for both rituals.)</p>
         </div>
-
         <div id="b-result-screen">
           <div id="b-capture-frame">
             <div id="b-seal">Seal: —</div>
-
             <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block; margin-bottom:18px;">
               ISA Chulalongkorn
             </span>
@@ -1146,19 +1058,15 @@
               -webkit-background-clip:text; background-clip:text; color:transparent;">
               Heart to Heart
             </h2>
-
             <div id="b-cardCanvas" class="card-canvas" data-mode="decor">
               <div id="b-photoFrame" class="photo-frame">
                 <img id="b-userPhoto" alt="Your photo" />
               </div>
               <div id="b-decorLayer" class="decor-layer"></div>
             </div>
-
             <div id="b-caption">—</div>
-
             <div style="font-family:'Playfair Display',serif; font-size:clamp(1.12rem, 4.1vw, 1.75rem); line-height:1.38; margin:18px 0 14px; font-style:italic; color: rgba(var(--green-rgb),0.88);" id="b-quote-text"></div>
             <div style="font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; opacity:0.62; color: rgba(var(--green-rgb),0.72);" id="b-quote-source"></div>
-
             <div style="display:flex; justify-content:space-between; gap:14px; margin-top:22px; padding-top:16px; border-top:0.8px solid rgba(58,36,48,0.08); text-align:left;">
               <div>
                 <span style="font-size:0.5rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block;">Cinematic</span>
@@ -1170,7 +1078,6 @@
               </div>
             </div>
           </div>
-
           <div class="decorate-panel">
             <div class="decorate-row">
               <div class="pill">
@@ -1180,12 +1087,10 @@
                   <option value="hybrid">Mode A — Photo + Emojis</option>
                 </select>
               </div>
-
               <div class="pill" id="b-photoInputWrap" style="display:none;">
                 Add Photo:
                 <input id="b-photoInput" type="file" accept="image/*" />
               </div>
-
               <div class="pill">
                 Symbol:
                 <select id="b-stickerSelect">
@@ -1201,36 +1106,31 @@
                   <option value="୨୧">୨୧ Ribbon</option>
                 </select>
               </div>
-
               <div class="pill">
                 Size:
                 <input id="b-stickerSize" type="range" min="16" max="96" value="34" />
               </div>
             </div>
-
             <div class="decorate-row">
               <button class="btn" id="b-placeStickerBtn" type="button">Place Sticker</button>
               <button class="btn" id="b-clearStickersBtn" type="button">Clear</button>
             </div>
           </div>
-
           <div style="margin-top:18px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
             <button class="btn" id="b-resetBtn" type="button">Reset</button>
             <button class="btn btn-save" id="b-saveBtn" type="button">Save Picture</button>
-            <button class="btn btn-sound active" id="b-soundBtn2" type="button">Sound: On</button>
+            <button class="btn btn-sound active" id="b-soundBtnResult" type="button">Sound: On</button>
           </div>
         </div>
       </div>
     </section>
   </div>
-
   <script>
     /* =========================
-       ROUTER + LAYERS
+       HELPERS
        ========================= */
     const views = ["home","expA","expB"];
     const el = (id)=>document.getElementById(id);
-
     /* =========================
        SHARED RITUAL STATE (A -> B)
        ========================= */
@@ -1243,79 +1143,62 @@
       slip: null,
       traitTokens: null
     };
-
     /* =========================
        HOUSE STYLE (A drives B)
        ========================= */
     const HOUSE_STYLE = {
-      family:   { crest:"❦", petals:22, birdRate:0.45, shimmer:0.10, mode:"warm", quoteAuthors:["C.S. Lewis","Erich Fromm","May Sarton","Cheryl Strayed"] },
-      religion: { crest:"✶", petals:22, birdRate:0.40, shimmer:0.08, mode:"warm", quoteAuthors:["Søren Kierkegaard","C.S. Lewis","Erich Fromm","Hannah Arendt"] },
-      media:    { crest:"✦", petals:12, birdRate:0.25, shimmer:0.28, mode:"cool", quoteAuthors:["Anne Carson","Rainer Maria Rilke","Iris Murdoch","Joan Didion"] },
-      internet: { crest:"⌁", petals:10, birdRate:0.20, shimmer:0.32, mode:"cool", quoteAuthors:["Gilles Deleuze","Maurice Blanchot","Hannah Arendt","Iris Murdoch"] },
-      school:   { crest:"✣", petals:14, birdRate:0.30, shimmer:0.14, mode:"clean", quoteAuthors:["Iris Murdoch","Leonard Koren","May Sarton","Erich Fromm"] }
+      family:   { crest:"❦", petals:22, birdRate:0.45, shimmer:0.10, mode:"warm" },
+      religion: { crest:"✶", petals:22, birdRate:0.40, shimmer:0.08, mode:"warm" },
+      media:    { crest:"✦", petals:12, birdRate:0.25, shimmer:0.28, mode:"cool" },
+      internet: { crest:"⌁", petals:10, birdRate:0.20, shimmer:0.32, mode:"cool" },
+      school:   { crest:"✣", petals:14, birdRate:0.30, shimmer:0.14, mode:"clean" }
     };
-
     function getHouseKeyForB(){ return Ritual.primaryKey || "family"; }
     function getStyleForB(){ return HOUSE_STYLE[getHouseKeyForB()] || HOUSE_STYLE.family; }
-
+    /* =========================
+       ROUTER + LAYERS
+       ========================= */
     function setThemeFor(view){
       if(view === "expA"){
-        // Act I layers on
         el("bgA").classList.add("on");
         el("motesA").classList.add("on");
         el("bgB").classList.remove("on");
         el("petalsB").classList.remove("on");
         el("birdsB").classList.remove("on");
         el("vignette").classList.add("on");
-
-        // keep it bright but wine-gold vibe
         document.documentElement.style.setProperty("--bg", "#FFF7F2");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--ink"));
-        document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue("--bg");
-        document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
-
-        // Audio: Act I (piano up, birds down)
+        document.body.style.backgroundColor = "#FFF7F2";
+        document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--ink");
         fadeToScene("A");
       } else if(view === "expB"){
-        // Act II layers on
         el("bgA").classList.remove("on");
         el("motesA").classList.remove("on");
         el("bgB").classList.add("on");
         el("petalsB").classList.add("on");
         el("birdsB").classList.add("on");
         el("vignette").classList.add("on");
-
-        // adjust garden intensity based on House
         applyHouseMoodToGarden();
-
         document.documentElement.style.setProperty("--bg", "#FFFEFA");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--deep-green"));
-        document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue("--bg");
-        document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
-
-        // Audio: Act II (birds up, piano down)
+        document.body.style.backgroundColor = "#FFFEFA";
+        document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--deep-green");
         fadeToScene("B");
       } else {
-        // home
         el("bgA").classList.remove("on");
         el("motesA").classList.remove("on");
         el("bgB").classList.remove("on");
         el("petalsB").classList.remove("on");
         el("birdsB").classList.remove("on");
         el("vignette").classList.remove("on");
-
-        document.documentElement.style.setProperty("--bg", getComputedStyle(el("home")).backgroundColor || "#FFFBF4");
+        document.documentElement.style.setProperty("--bg", "#FFFBF4");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--ink"));
         document.body.style.backgroundColor = "#FFFBF4";
         document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--ink");
-
-        // Keep Act I ambience by default on menu (feels premium)
         fadeToScene("A");
       }
-
       el("app").scrollTo({ top: 0, behavior: "instant" });
     }
-
     function showView(id){
       views.forEach(v=>{
         const sec = el(v);
@@ -1324,18 +1207,23 @@
       });
       setThemeFor(id);
     }
-
-    el("goA").addEventListener("click", ()=> showView("expA"));
-    el("goB").addEventListener("click", ()=> showView("expB"));
+    // clickable + keyboard for home cards
+    function bindCardNav(cardId, go){
+      const node = el(cardId);
+      node.addEventListener("click", go);
+      node.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); go(); }
+      });
+    }
+    bindCardNav("goA", ()=> showView("expA"));
+    bindCardNav("goB", ()=> showView("expB"));
     el("a-home").addEventListener("click", ()=> showView("home"));
     el("b-home").addEventListener("click", ()=> showView("home"));
     el("a-goB").addEventListener("click", ()=> showView("expB"));
-
     /* =========================
        HEART FLOATERS (A)
        ========================= */
     const motesHostA = el("motesA");
-
     function heartSVG_A({ glow=0.22 } = {}) {
       return `
         <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -1365,48 +1253,39 @@
         </svg>
       `;
     }
-
     function spawnHeartsA(count = 20){
       motesHostA.innerHTML = "";
       for(let i=0;i<count;i++){
         const wrap = document.createElement("div");
         wrap.className = "heart-mote";
-
         const x = Math.random() * 100;
         const x2 = Math.max(0, Math.min(100, x + (Math.random()*22 - 11)));
         const dur = 10 + Math.random() * 16;
         const delay = Math.random() * 10;
         const s = (0.45 + Math.random() * 1.35).toFixed(2);
         const r = (-18 + Math.random()*36).toFixed(1) + "deg";
-
         wrap.style.setProperty("--x", x + "vw");
         wrap.style.setProperty("--x2", x2 + "vw");
         wrap.style.setProperty("--s", s);
         wrap.style.setProperty("--r", r);
         wrap.style.animationDuration = dur + "s";
         wrap.style.animationDelay = delay + "s";
-
         const size = 16 + Math.random()*26;
         wrap.style.width = size + "px";
         wrap.style.height = size + "px";
-
         wrap.innerHTML = heartSVG_A({ glow: 0.22 });
-
-        // unique ids per svg
         const svg = wrap.querySelector("svg");
         const uid = "h" + Math.random().toString(16).slice(2);
         svg.innerHTML = svg.innerHTML
           .replaceAll("hgrad", uid + "g")
           .replaceAll("softGlow", uid + "f");
-
         motesHostA.appendChild(wrap);
       }
     }
     spawnHeartsA(20);
     window.addEventListener("resize", ()=> spawnHeartsA(window.innerWidth < 480 ? 14 : 20));
-
     /* =========================
-       PETALS + BIRDS (B) — intensity controlled by House
+       PETALS + BIRDS (B)
        ========================= */
     const petalsHostB = el("petalsB");
     function spawnPetalsB(count = 18) {
@@ -1421,31 +1300,25 @@
         p.style.left = left + 'vw';
         p.style.animationDuration = dur + 's';
         p.style.animationDelay = delay + 's';
-        p.style.width = size + 'px';
-        p.style.height = (size * 1.5) + 'px';
+        p.style.width = size + "px";
+        p.style.height = (size * 1.5) + "px";
         p.style.opacity = (0.45 + Math.random() * 0.45).toFixed(2);
         petalsHostB.appendChild(p);
       }
     }
-
-    // birds visuals
     const birdsHostB = el("birdsB");
     function spawnBirdB() {
       const bird = document.createElement('div');
       bird.className = 'bird';
-
       const mode = Math.random() > 0.5 ? "up" : "down";
       const fromX = "-25vw";
       const toX   = "120vw";
-
       const fromY = mode === "up" ? (65 + Math.random() * 25) + "vh" : (10 + Math.random() * 25) + "vh";
-      const toY   = mode === "up" ? (8 + Math.random() * 25) + "vh"  : (55 + Math.random() * 30) + "vh";
-
+      const toY   = mode === "up" ? (8 + Math.random() * 25)  + "vh" : (55 + Math.random() * 30) + "vh";
       const dur = 9 + Math.random() * 10;
       const delay = Math.random() * 2.5;
       const scale = (0.75 + Math.random() * 0.7).toFixed(2);
       const opacity = (0.30 + Math.random() * 0.38).toFixed(2);
-
       bird.style.setProperty('--fromX', fromX);
       bird.style.setProperty('--toX', toX);
       bird.style.setProperty('--fromY', fromY);
@@ -1454,7 +1327,6 @@
       bird.style.animationDuration = dur + "s";
       bird.style.animationDelay = delay + "s";
       bird.style.opacity = opacity;
-
       bird.innerHTML = `
         <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" stroke-linecap="round" stroke="rgba(26,42,29,0.62)">
@@ -1469,132 +1341,94 @@
         </svg>
       `;
       birdsHostB.appendChild(bird);
-
-      // sound chirps scheduled by audio scene
       const entryPan = -0.55 + Math.random() * 0.25;
       const midPan   = -0.10 + Math.random() * 0.20;
       const baseVol = 0.85 + Math.random() * 0.25;
-
       setTimeout(() => {
         birdChirp({ pan: entryPan, volume: baseVol });
         if (Math.random() > 0.55) setTimeout(() => birdChirp({ pan: midPan, volume: baseVol * 0.92 }), (dur * 0.45) * 1000);
         if (Math.random() > 0.7)  setTimeout(() => birdChirp({ pan: entryPan, volume: baseVol * 0.72 }), 220 + Math.random() * 180);
       }, delay * 1000);
-
       setTimeout(() => bird.remove(), (dur + delay + 1) * 1000);
     }
-
     let birdInterval = null;
-    function setBirdSpawnRate(rate){ // rate in [0..1] chance per tick
+    function setBirdSpawnRate(rate){
       if (birdInterval) clearInterval(birdInterval);
       birdInterval = setInterval(() => {
         if (Math.random() < rate) spawnBirdB();
       }, 2200);
     }
-
     function applyHouseMoodToGarden(){
       const style = getStyleForB();
-
-      // petals
       spawnPetalsB(style.petals);
-      // birds
       setBirdSpawnRate(style.birdRate);
-      // shimmer
       el("b-cardCanvas").style.setProperty("--shimmer", String(style.shimmer));
-
-      // optional: slightly adjust overall garden tone by mode (still no dark)
-      if (style.mode === "cool"){
-        // cooler, more “dramatic” but still bright
-        document.body.style.backgroundColor = "#FFF9F2";
-      } else if (style.mode === "clean"){
-        document.body.style.backgroundColor = "#FFFEFA";
-      } else {
-        document.body.style.backgroundColor = "#FFF7EB";
-      }
+      if (style.mode === "cool") document.body.style.backgroundColor = "#FFF9F2";
+      else if (style.mode === "clean") document.body.style.backgroundColor = "#FFFEFA";
+      else document.body.style.backgroundColor = "#FFF7EB";
     }
-
-    // initial petals/birds for when B toggles on later
     spawnPetalsB(18);
     setBirdSpawnRate(0.30);
     window.addEventListener('resize', () => {
       const style = getStyleForB();
       spawnPetalsB(window.innerWidth < 480 ? Math.max(10, style.petals - 6) : style.petals);
     });
-
     /* =========================
-       ONE AUDIO ENGINE (piano + birds with crossfade)
+       ONE AUDIO ENGINE (piano + birds, crossfade)
        ========================= */
     let audioCtx = null;
     let masterGain = null;
-    let pianoGain = null;
-    let birdsGain = null;
-
+    let pianoGain  = null;
+    let birdsGain  = null;
     let soundOn = true;
     let audioPrimed = false;
-
-    // Piano loop state
     let pianoLoopTimer = null;
     let pianoIsRunning = false;
-
     function ensureAudio() {
       if (audioCtx) return;
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
       masterGain = audioCtx.createGain();
       pianoGain  = audioCtx.createGain();
       birdsGain  = audioCtx.createGain();
-
       masterGain.gain.value = 0.0001;
       pianoGain.gain.value  = 0.0001;
       birdsGain.gain.value  = 0.0001;
-
       pianoGain.connect(masterGain);
       birdsGain.connect(masterGain);
       masterGain.connect(audioCtx.destination);
     }
-
     async function primeAndApplyAudio() {
       ensureAudio();
       if (audioCtx.state === "suspended") {
         try { await audioCtx.resume(); } catch (e) {}
       }
       audioPrimed = true;
-
       const now = audioCtx.currentTime;
       masterGain.gain.cancelScheduledValues(now);
       masterGain.gain.setValueAtTime(masterGain.gain.value, now);
       masterGain.gain.exponentialRampToValueAtTime(soundOn ? 0.65 : 0.0001, now + 0.12);
-
-      // default scene: A
       fadeToScene("A", true);
-
       updateAllSoundButtons();
       if (soundOn) startPianoAmbience();
     }
-
     function setSound(on) {
       soundOn = on;
       if (!audioPrimed || !audioCtx || !masterGain) { updateAllSoundButtons(); return; }
-
       const now = audioCtx.currentTime;
       masterGain.gain.cancelScheduledValues(now);
       masterGain.gain.setValueAtTime(masterGain.gain.value, now);
       masterGain.gain.exponentialRampToValueAtTime(on ? 0.65 : 0.0001, now + 0.12);
-
       updateAllSoundButtons();
-
       if (on) {
-        // resume current scene logic
         if (!pianoIsRunning) startPianoAmbience();
       } else {
         stopPianoAmbience();
       }
     }
     function toggleSound(){ setSound(!soundOn); }
-
     function updateAllSoundButtons(){
       const label = soundOn ? "Sound: On" : "Sound: Off";
-      const ids = ["a-soundBtn","a-soundBtn2","b-soundBtn","b-soundBtn2"];
+      const ids = ["a-soundBtnTop","a-soundBtnResult","b-soundBtnTop","b-soundBtnResult"];
       ids.forEach(id=>{
         const b = el(id);
         if(!b) return;
@@ -1602,7 +1436,6 @@
         b.classList.toggle("active", soundOn);
       });
     }
-
     (function bindAutoStart() {
       const once = async () => {
         await primeAndApplyAudio();
@@ -1612,12 +1445,10 @@
       window.addEventListener("pointerdown", once);
       window.addEventListener("keydown", once);
     })();
-
-    ["a-soundBtn","a-soundBtn2","b-soundBtn","b-soundBtn2"].forEach(id=>{
+    ["a-soundBtnTop","a-soundBtnResult","b-soundBtnTop","b-soundBtnResult"].forEach(id=>{
       const btn = el(id);
       btn?.addEventListener("click", (e)=>{ e.stopPropagation(); toggleSound(); });
     });
-
     function rampGain(node, target, t = 0.45){
       if (!audioCtx || !node) return;
       const now = audioCtx.currentTime;
@@ -1625,17 +1456,14 @@
       node.gain.setValueAtTime(node.gain.value, now);
       node.gain.exponentialRampToValueAtTime(Math.max(0.0001, target), now + t);
     }
-
     function fadeToScene(scene, instant=false){
       if (!audioPrimed || !audioCtx || !pianoGain || !birdsGain) return;
       const t = instant ? 0.12 : 0.55;
-
       if (!soundOn){
         rampGain(pianoGain, 0.0001, t);
         rampGain(birdsGain, 0.0001, t);
         return;
       }
-
       if (scene === "A"){
         rampGain(pianoGain, 0.55, t);
         rampGain(birdsGain, 0.0001, t);
@@ -1643,119 +1471,91 @@
       } else {
         rampGain(pianoGain, 0.0001, t);
         rampGain(birdsGain, 0.55, t);
-        startPianoAmbience(); // keep oscillator engine available (low gain)
+        startPianoAmbience();
       }
     }
-
     function playTone(freq, { when=0, dur=1.2, vel=0.6, pan=0, bus="piano" } = {}) {
       if (!audioCtx || !audioPrimed || !soundOn) return;
       const t0 = audioCtx.currentTime + when;
-
       const osc = audioCtx.createOscillator();
       osc.type = "triangle";
       osc.frequency.setValueAtTime(freq, t0);
-
       const click = audioCtx.createOscillator();
       click.type = "sine";
       click.frequency.setValueAtTime(freq * 2.0, t0);
-
       const g = audioCtx.createGain();
       const peak = 0.08 * vel;
-
       g.gain.setValueAtTime(0.0001, t0);
       g.gain.exponentialRampToValueAtTime(peak, t0 + 0.01);
       g.gain.exponentialRampToValueAtTime(peak * 0.35, t0 + 0.18);
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-
       const filter = audioCtx.createBiquadFilter();
       filter.type = "lowpass";
       filter.frequency.setValueAtTime(1800 + vel * 1200, t0);
       filter.Q.setValueAtTime(0.8, t0);
-
       const delay = audioCtx.createDelay();
       delay.delayTime.setValueAtTime(0.14, t0);
-
       const fb = audioCtx.createGain();
       fb.gain.setValueAtTime(0.22, t0);
-
       const wet = audioCtx.createGain();
       wet.gain.setValueAtTime(0.35, t0);
-
       const dry = audioCtx.createGain();
       dry.gain.setValueAtTime(0.9, t0);
-
       const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
       if (panner) panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), t0);
-
       osc.connect(filter);
       click.connect(filter);
-
       filter.connect(dry); dry.connect(g);
       filter.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(g);
-
       const out = (bus === "birds") ? birdsGain : pianoGain;
-
       if (panner) { g.connect(panner); panner.connect(out); }
       else { g.connect(out); }
-
       osc.start(t0); click.start(t0);
       osc.stop(t0 + dur + 0.05);
       click.stop(t0 + 0.03);
     }
-
     const CHORDS = [
       [293.66, 369.99, 440.00],
       [392.00, 493.88, 587.33],
       [246.94, 293.66, 369.99],
       [220.00, 293.66, 329.63],
     ];
-
     function startPianoAmbience() {
       if (pianoIsRunning) return;
       pianoIsRunning = true;
-
       let step = 0;
       const tick = () => {
         if (!soundOn || !audioPrimed || !audioCtx) return;
         const chord = CHORDS[step % CHORDS.length];
         const basePan = -0.25 + Math.random() * 0.5;
         const vel = 0.45 + Math.random() * 0.25;
-
         playTone(chord[0] / 2, { when: 0.00, dur: 2.2, vel: vel * 0.65, pan: basePan * 0.6, bus:"piano" });
         playTone(chord[0],     { when: 0.05, dur: 1.8, vel: vel,        pan: basePan,       bus:"piano" });
         playTone(chord[1],     { when: 0.32, dur: 1.6, vel: vel * 0.90, pan: basePan * 0.8, bus:"piano" });
         playTone(chord[2],     { when: 0.62, dur: 1.4, vel: vel * 0.85, pan: basePan * 0.6, bus:"piano" });
-
         step++;
         pianoLoopTimer = setTimeout(tick, 2400);
       };
       tick();
     }
-
     function stopPianoAmbience() {
       pianoIsRunning = false;
       if (pianoLoopTimer) { clearTimeout(pianoLoopTimer); pianoLoopTimer = null; }
     }
-
     function softChime(type = "place") {
       const map = { place:[659.25,880.0], gate:[523.25,659.25], reveal:[392.0,523.25] };
       const seq = map[type] || map.place;
       playTone(seq[0], { when: 0.00, dur: 0.55, vel: 0.35, pan: -0.05, bus:"piano" });
       playTone(seq[1], { when: 0.08, dur: 0.60, vel: 0.30, pan:  0.08, bus:"piano" });
     }
-
     function birdChirp({ pan = 0, volume = 1 } = {}) {
       if (!audioCtx || !audioPrimed || !soundOn) return;
-
-      // quick chirp using playTone into birds bus
       const base = 1350 + Math.random() * 950;
       const sweep = 1.25 + Math.random() * 0.35;
       const dur = 0.16 + Math.random() * 0.08;
-
-      playTone(base,         { when:0.00, dur, vel: 0.18 * volume, pan, bus:"birds" });
-      playTone(base * sweep, { when:0.04, dur: dur*0.9, vel: 0.14 * volume, pan: pan*0.8, bus:"birds" });
+      playTone(base,         { when:0.00, dur,        vel: 0.18 * volume, pan,         bus:"birds" });
+      playTone(base * sweep, { when:0.04, dur:dur*0.9, vel: 0.14 * volume, pan: pan*0.8, bus:"birds" });
     }
-
     /* =========================
        EXPERIENCE A LOGIC (tokens)
        ========================= */
@@ -1861,7 +1661,6 @@
         ]
       }
     };
-
     const recognitionLines = [
       "“Love is learned before it is chosen.”",
       "“Most patterns began as protection.”",
@@ -1869,7 +1668,6 @@
       "“This is not fate. It is recognition.”",
       "“You are not bad at love. You are trained by it.”"
     ];
-
     const TRAITS = [
       { id:"fast",  title:"I fall too fast.", sub:"speed • spark • rush", w:{ media:2, internet:1 } },
       { id:"numb",  title:"I don’t feel enough.", sub:"muted • small • numb", w:{ internet:2, media:1 } },
@@ -1880,38 +1678,28 @@
       { id:"prove", title:"I perform to be chosen.", sub:"earn • impress • belong", w:{ school:2, family:1 } },
       { id:"duty",  title:"I take love seriously.", sub:"meaning • devotion • care", w:{ religion:2, family:1 } }
     ];
-
-    // A refs
     const aTokenScreen = el("a-token-screen");
     const aRecognitionScreen = el("a-recognition-screen");
     const aTraitGrid = el("a-traitGrid");
-
     const aTokenDots = el("a-tokenDots");
     const aTokenStatus = el("a-tokenStatus");
     const aTokenClearBtn = el("a-tokenClear");
     const aBeginRecognitionBtn = el("a-beginRecognition");
-
     const aBackToTokensBtn = el("a-backToTokens");
     const aContinueToSlipBtn = el("a-continueToSlip");
-
     const aRecognitionLineEl = el("a-recognitionLine");
     const aCountdownTextEl = el("a-countdownText");
-
     const aStepToken = el("a-stepToken");
     const aStepRecognize = el("a-stepRecognize");
     const aStepArticulate = el("a-stepArticulate");
     const aStepCounsel = el("a-stepCounsel");
-
     let tokensTotal = 3;
     let tokensLeft = 3;
-
     let traitTokens = Object.fromEntries(TRAITS.map(t => [t.id, 0]));
     let scores = { family:0, media:0, religion:0, school:0, internet:0 };
     let primaryKey = null;
     let secondaryKey = null;
-
     let recognitionTimer = null;
-
     function setStepA(active){
       [aStepToken, aStepRecognize, aStepArticulate, aStepCounsel].forEach(s=>s.classList.remove("active"));
       if(active === "token") aStepToken.classList.add("active");
@@ -1919,7 +1707,6 @@
       if(active === "articulation") aStepArticulate.classList.add("active");
       if(active === "counsel") aStepCounsel.classList.add("active");
     }
-
     function renderTokenDotsA(){
       aTokenDots.innerHTML = "";
       for(let i=0;i<tokensTotal;i++){
@@ -1928,7 +1715,6 @@
         aTokenDots.appendChild(d);
       }
     }
-
     function recomputeScoresA(){
       scores = { family:0, media:0, religion:0, school:0, internet:0 };
       for(const tr of TRAITS){
@@ -1938,17 +1724,13 @@
           scores[k] += c * tr.w[k];
         }
       }
-
       const order = ["family","media","religion","school","internet"];
       const arr = order.map(k => ({k, n: scores[k]}))
         .sort((a,b)=> b.n - a.n || order.indexOf(a.k) - order.indexOf(b.k));
-
       primaryKey = arr[0].n > 0 ? arr[0].k : null;
       secondaryKey = arr[1].n > 0 ? arr[1].k : null;
-
       aBeginRecognitionBtn.disabled = (tokensLeft !== 0);
     }
-
     function deterministicSlipIndexA(forTeacherKey){
       const w = { fast:3, numb:5, leave:7, guilt:11, peace:13, think:17, prove:19, duty:23 };
       let h = 0;
@@ -1957,7 +1739,6 @@
       }
       return h % teachers[forTeacherKey].slips.length;
     }
-
     function computeSealA(){
       const w = { fast:31, numb:37, leave:41, guilt:43, peace:47, think:53, prove:59, duty:61 };
       let n = 0;
@@ -1967,21 +1748,17 @@
       const seal = (n + 2026).toString(36).toUpperCase();
       return "ISA-H2H-" + seal.padStart(4,"0");
     }
-
     function renderTraitsA(){
       aTraitGrid.innerHTML = "";
       recomputeScoresA();
-
       TRAITS.forEach(tr=>{
         const count = traitTokens[tr.id] || 0;
         const tile = document.createElement("div");
         tile.className = "trait";
         tile.tabIndex = 0;
-
         const slots = Array.from({length:3}).map((_,i)=>
           `<span class="slot ${i < count ? "on":""}"></span>`
         ).join("");
-
         tile.innerHTML = `
           <div class="trait-title">${tr.title}</div>
           <div class="trait-sub">${tr.sub}</div>
@@ -1990,38 +1767,63 @@
             <div class="token-slots" aria-label="Tokens placed">${slots}</div>
           </div>
         `;
-
-        const addToken = ()=>{
-          if(tokensLeft <= 0){
-            aTokenStatus.textContent = "No tokens left. Begin recognition.";
+        const addOrRemoveToken = (mode = "auto")=>{
+          const current = traitTokens[tr.id] || 0;
+          const wantRemove = (mode === "remove") || (mode === "auto" && current > 0);
+          if (wantRemove) {
+            if (current <= 0) return;
+            traitTokens[tr.id] -= 1;
+            tokensLeft += 1;
+            renderTokenDotsA();
+            renderTraitsA();
+            softChime("gate");
+            aTokenStatus.textContent = `Token returned. ${tokensLeft} left.`;
             return;
           }
-          if(traitTokens[tr.id] >= 3) return;
+          if(tokensLeft <= 0){
+            aTokenStatus.textContent = "No tokens left. Return one token to move it.";
+            return;
+          }
+          if(current >= 3) return;
           traitTokens[tr.id] += 1;
           tokensLeft -= 1;
-
           renderTokenDotsA();
           renderTraitsA();
           softChime("place");
-
           aTokenStatus.textContent = (tokensLeft > 0)
             ? `Token placed. ${tokensLeft} left.`
             : `Allocation complete. Proceed to recognition.`;
         };
-
-        tile.addEventListener("click", addToken);
-        tile.addEventListener("keydown", (e)=>{
-          if(e.key === "Enter" || e.key === " "){ e.preventDefault(); addToken(); }
+        // Tap/click: toggle (add if empty, otherwise remove)
+        tile.addEventListener("click", (e)=>{
+          if (e.shiftKey) addOrRemoveToken("remove");
+          else addOrRemoveToken("auto");
         });
-
+        // Right-click: remove
+        tile.addEventListener("contextmenu", (e)=>{
+          e.preventDefault();
+          addOrRemoveToken("remove");
+        });
+        // Keyboard
+        tile.addEventListener("keydown", (e)=>{
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            addOrRemoveToken(e.shiftKey ? "remove" : "auto");
+          }
+        });
+        // Long-press remove (mobile)
+        let pressTimer = null;
+        tile.addEventListener("touchstart", ()=>{
+          pressTimer = setTimeout(()=> addOrRemoveToken("remove"), 420);
+        }, { passive:true });
+        tile.addEventListener("touchend", ()=>{ if(pressTimer) clearTimeout(pressTimer); pressTimer=null; }, { passive:true });
+        tile.addEventListener("touchmove", ()=>{ if(pressTimer) clearTimeout(pressTimer); pressTimer=null; }, { passive:true });
         aTraitGrid.appendChild(tile);
       });
-
       aTokenStatus.textContent = (tokensLeft > 0)
         ? "Spend all 3 tokens to continue."
         : "Allocation complete. Proceed to recognition.";
     }
-
     function clearTraitsA(){
       traitTokens = Object.fromEntries(TRAITS.map(t => [t.id, 0]));
       tokensLeft = tokensTotal;
@@ -2031,17 +1833,14 @@
       renderTokenDotsA();
       renderTraitsA();
       aBeginRecognitionBtn.disabled = true;
-
       setStepA("token");
       softChime("gate");
-
       el("a-result-screen").style.display = "none";
       el("a-result-screen").style.opacity = "0";
       aRecognitionScreen.style.display = "none";
       aTokenScreen.style.display = "block";
     }
     aTokenClearBtn.addEventListener("click", clearTraitsA);
-
     function startRecognitionA(){
       if(tokensLeft !== 0){
         aTokenStatus.textContent = "Please spend all tokens first.";
@@ -2052,27 +1851,20 @@
         aTokenStatus.textContent = "Please select at least one trait.";
         return;
       }
-
       setStepA("recognition");
       aTokenScreen.style.display = "none";
       aRecognitionScreen.style.display = "block";
-
       const idx = deterministicSlipIndexA(primaryKey) % recognitionLines.length;
       aRecognitionLineEl.textContent = recognitionLines[idx];
-
       softChime("gate");
-
       aContinueToSlipBtn.disabled = true;
       aCountdownTextEl.textContent = "Continue unlocks in 3s";
-
       const start = performance.now();
       const duration = 3000;
       if(recognitionTimer) cancelAnimationFrame(recognitionTimer);
-
       const tick = (now)=>{
         const elapsed = now - start;
         const remaining = Math.max(0, (duration - elapsed) / 1000);
-
         if(remaining > 0.01){
           aCountdownTextEl.textContent = `Continue unlocks in ${Math.ceil(remaining)}s`;
           recognitionTimer = requestAnimationFrame(tick);
@@ -2084,7 +1876,6 @@
       recognitionTimer = requestAnimationFrame(tick);
     }
     aBeginRecognitionBtn.addEventListener("click", startRecognitionA);
-
     aBackToTokensBtn.addEventListener("click", ()=>{
       if(recognitionTimer) cancelAnimationFrame(recognitionTimer);
       aRecognitionScreen.style.display = "none";
@@ -2092,15 +1883,11 @@
       setStepA("token");
       softChime("place");
     });
-
     function showSlipA(){
       recomputeScoresA();
       if(!primaryKey) return;
-
       const i = deterministicSlipIndexA(primaryKey);
       const slip = teachers[primaryKey].slips[i];
-
-      // ---- A -> B handoff (DATA COHESION) ----
       Ritual.primaryKey = primaryKey;
       Ritual.secondaryKey = secondaryKey;
       Ritual.seal = computeSealA();
@@ -2108,20 +1895,15 @@
       Ritual.pattern = slip.pattern;
       Ritual.slip = slip;
       Ritual.traitTokens = { ...traitTokens };
-
       setStepA("articulation");
-
       aRecognitionScreen.style.display = "none";
       aTokenScreen.style.display = "none";
-
       const result = el("a-result-screen");
       result.style.display = "block";
       requestAnimationFrame(()=> result.style.opacity = "1");
-
       el("a-pill-primary").textContent = `House: ${teachers[primaryKey].label}`;
       el("a-pill-secondary").textContent = `Secondary: ${secondaryKey ? teachers[secondaryKey].label : "—"}`;
       el("a-pill-sig").textContent = `Seal: ${Ritual.seal}`;
-
       el("a-frontLine").textContent = slip.pattern;
       el("a-articulationText").textContent = slip.articulation;
       el("a-houseText").textContent =
@@ -2129,13 +1911,10 @@
         (secondaryKey ? ` A secondary influence from ${teachers[secondaryKey].label} may color how this shows up.` : "");
       el("a-contextText").textContent = slip.context;
       el("a-counselText").textContent = slip.counsel;
-
       softChime("reveal");
       setTimeout(()=> setStepA("counsel"), 800);
     }
     aContinueToSlipBtn.addEventListener("click", showSlipA);
-
-    // A save/reset
     el("a-saveBtn").addEventListener("click", ()=>{
       const captureArea = el("a-capture-frame");
       html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
@@ -2146,18 +1925,11 @@
       });
     });
     el("a-resetBtn").addEventListener("click", clearTraitsA);
-
     renderTokenDotsA();
     renderTraitsA();
     setStepA("token");
-
     /* =========================
-       EXPERIENCE B LOGIC (deck + reveal + stickers)
-       DATA COHESION:
-       - House decides crest, quote pool bias
-       - Seal printed
-       - Counsel becomes caption
-       - Background mood adjusted
+       EXPERIENCE B LOGIC (deck + reveal)
        ========================= */
     const colorPalette = [
       { name:"Ivory Silk", hex:"#fffdf0", quote:"To love at all is to be vulnerable.", source:"C.S. Lewis", movie:"Shadowlands", book:"The Four Loves" },
@@ -2177,7 +1949,6 @@
       { name:"Oat Chapel", hex:"#f3eddc", quote:"Love is an act of faith, and whoever is of little faith is also of little love.", source:"Erich Fromm", movie:"Ordet", book:"The Art of Loving" },
       { name:"Ash Rose", hex:"#f2eaea", quote:"Grief is the final manifestation of love.", source:"Joan Didion", movie:"Aftersun", book:"Blue Nights" }
     ];
-
     const HOUSE_PALETTE = {
       family:   ["Ivory Silk","Vintage Champagne","Old Manor Taupe","Oat Chapel","Linen Prayer","Ash Rose","Versailles Sage","Gilded Moss"],
       religion: ["Linen Prayer","Oat Chapel","Ivory Silk","Vintage Champagne","Old Manor Taupe","Versailles Sage"],
@@ -2185,11 +1956,9 @@
       internet: ["Slate Manor","Cemetery Stone","Pale Concrete","Orchard Ash","Biedermeier Blue"],
       school:   ["Slate Manor","Linen Prayer","Old Manor Taupe","Terracotta Sundial","Biedermeier Blue","Vintage Champagne"]
     };
-
     const deckB = el('b-deck-container');
     const statusB = el('b-status-text');
     let shuffleStateB = 0;
-
     function createDeckB() {
       deckB.innerHTML = "";
       const crest = getStyleForB().crest;
@@ -2206,7 +1975,6 @@
         deckB.appendChild(card);
       }
     }
-
     function runShuffleB() {
       shuffleStateB++;
       const cards = deckB.querySelectorAll('.card');
@@ -2222,19 +1990,15 @@
         if (shuffleStateB === 3) setTimeout(fanCardsB, 600);
       }, 800);
     }
-
     function fanCardsB() {
       const cards = deckB.querySelectorAll('.card');
       shuffleStateB = 4;
       statusB.innerText = "Draw your heart's secret";
-
       const windowWidth = window.innerWidth;
       let spread, angleStep;
-
       if (windowWidth < 480) { spread = 22; angleStep = 5; }
       else if (windowWidth < 1024) { spread = 35; angleStep = 7; }
       else { spread = 45; angleStep = 9; }
-
       cards.forEach((card, i) => {
         const centerOffset = (cards.length - 1) / 2;
         const angle = (i - centerOffset) * angleStep;
@@ -2243,43 +2007,30 @@
         card.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
       });
     }
-
     function pickFromHousePool(){
       const hk = getHouseKeyForB();
       const names = HOUSE_PALETTE[hk] || HOUSE_PALETTE.family;
       const pool = colorPalette.filter(c => names.includes(c.name));
-      const fallback = colorPalette;
-      return (pool.length ? pool : fallback)[Math.floor(Math.random() * (pool.length ? pool : fallback).length)];
+      const chooseFrom = pool.length ? pool : colorPalette;
+      return chooseFrom[Math.floor(Math.random() * chooseFrom.length)];
     }
-
     function revealCardB() {
       const data = pickFromHousePool();
       el('b-ritual-screen').style.opacity = '0';
-
-      // apply shimmer + petals/birds by house
       applyHouseMoodToGarden();
-
-      // caption + seal from A
       el("b-caption").textContent = Ritual.counsel ? Ritual.counsel : "Take what resonates. Leave what doesn’t.";
       el("b-seal").textContent = `Seal: ${Ritual.seal || "—"}`;
-
-      // subtle background tint (still bright)
       document.body.style.backgroundColor = data.hex;
-
       setTimeout(() => {
         el('b-ritual-screen').style.display = 'none';
         el('b-result-screen').style.display = 'block';
-
         el('b-quote-text').innerText = data.quote;
         el('b-quote-source').innerText = `— ${data.source}`;
         el('b-movie-title').innerText = data.movie;
         el('b-book-title').innerText = data.book;
-
         setTimeout(() => { el('b-result-screen').style.opacity = '1'; }, 60);
       }, 900);
     }
-
-    // B Save/Reset
     el("b-saveBtn").addEventListener("click", ()=>{
       const captureArea = el('b-capture-frame');
       html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
@@ -2289,9 +2040,7 @@
         link.click();
       });
     });
-
     el("b-resetBtn").addEventListener("click", ()=>{
-      // reset B only
       shuffleStateB = 0;
       el("b-result-screen").style.display = "none";
       el("b-result-screen").style.opacity = "0";
@@ -2300,16 +2049,11 @@
       document.body.style.backgroundColor = "#FFFEFA";
       statusB.innerText = "Tap the deck to begin";
       createDeckB();
-
-      // clear stickers
       stickersB.length = 0;
       decorLayerB.innerHTML = "";
-
       applyHouseMoodToGarden();
     });
-
     createDeckB();
-
     /* =========================
        B Mode + Photo + Stickers
        ========================= */
@@ -2323,10 +2067,8 @@
     const stickerSizeB = el("b-stickerSize");
     const placeStickerBtnB = el("b-placeStickerBtn");
     const clearStickersBtnB = el("b-clearStickersBtn");
-
     const stickersB = [];
     let activeStickerIdB = null;
-
     function setActiveStickerB(id) {
       activeStickerIdB = id;
       decorLayerB.querySelectorAll(".sticker").forEach(elm => {
@@ -2334,12 +2076,10 @@
         elm.style.outlineOffset = "6px";
       });
     }
-
     function setModeB(mode) {
       const isHybrid = mode === "hybrid";
       cardCanvasB.dataset.mode = mode;
       photoInputWrapB.style.display = isHybrid ? "inline-flex" : "none";
-
       if (!isHybrid) {
         userPhotoB.removeAttribute("src");
         userPhotoB.style.display = "none";
@@ -2348,17 +2088,14 @@
         userPhotoB.style.display = userPhotoB.src ? "block" : "none";
       }
     }
-
     modeSelectB.addEventListener("change", (e) => setModeB(e.target.value));
     setModeB(modeSelectB.value);
-
     photoInputB.addEventListener("change", (e) => {
       const file = e.target.files && e.target.files[0];
       if (!file) return;
       userPhotoB.src = URL.createObjectURL(file);
       userPhotoB.style.display = "block";
     });
-
     function clampToCanvasB(x, y, elNode) {
       const host = decorLayerB.getBoundingClientRect();
       const rect = elNode.getBoundingClientRect();
@@ -2369,69 +2106,56 @@
         y: Math.max(halfH, Math.min(host.height - halfH, y)),
       };
     }
-
     function removeStickerB(id) {
       const idx = stickersB.findIndex((s) => s.id === id);
       if (idx !== -1) stickersB.splice(idx, 1);
       const elNode = decorLayerB.querySelector(`[data-id="${id}"]`);
       if (elNode) elNode.remove();
     }
-
     function applyTransformB(elNode, s) {
       elNode.style.transform = `translate(-50%,-50%) rotate(${s.rot}deg) scale(${s.scale})`;
     }
-
     function makeTransformableB(elNode, s) {
       let dragging = false;
-      let rotateMode = false; // ALT
-      let scaleMode = false;  // SHIFT
+      let rotateMode = false;
+      let scaleMode = false;
       let startAngle = 0;
       let startRot = 0;
       let startY = 0;
       let startScale = 1;
-
       let gestureActive = false;
       let startDist = 0;
       let startGestureAngle = 0;
-
       const getCenter = () => {
         const r = elNode.getBoundingClientRect();
         return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
       };
-
-      const angleBetween = (p1, p2) => Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+      const angleBetween = (p1, p2) =>
+        Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
       const distBetween = (p1, p2) => Math.hypot(p2.x - p1.x, p2.y - p1.y);
       const clampScale = (v) => Math.max(0.35, Math.min(3.2, v));
-
       function onDown(e) {
         e.preventDefault();
         e.stopPropagation();
         elNode.setPointerCapture?.(e.pointerId);
-
         setActiveStickerB(s.id);
-
         dragging = true;
         rotateMode = e.altKey === true;
         scaleMode = e.shiftKey === true;
-
         if (rotateMode) {
           const { cx, cy } = getCenter();
           startAngle = angleBetween({ x: cx, y: cy }, { x: e.clientX, y: e.clientY });
           startRot = s.rot;
         }
-
         if (scaleMode) {
           startY = e.clientY;
           startScale = s.scale;
         }
-
         elNode.style.cursor = "grabbing";
       }
-
       function onMove(e) {
         if (!dragging) return;
         const host = decorLayerB.getBoundingClientRect();
-
         if (scaleMode) {
           const dy = (startY - e.clientY);
           const factor = 1 + (dy / 220);
@@ -2439,7 +2163,6 @@
           applyTransformB(elNode, s);
           return;
         }
-
         if (rotateMode) {
           const { cx, cy } = getCenter();
           const a = angleBetween({ x: cx, y: cy }, { x: e.clientX, y: e.clientY });
@@ -2447,17 +2170,14 @@
           applyTransformB(elNode, s);
           return;
         }
-
         const x = e.clientX - host.left;
         const y = e.clientY - host.top;
         const clamped = clampToCanvasB(x, y, elNode);
-
         elNode.style.left = clamped.x + "px";
         elNode.style.top = clamped.y + "px";
         s.xPct = clamped.x / host.width;
         s.yPct = clamped.y / host.height;
       }
-
       function onUp(e) {
         dragging = false;
         rotateMode = false;
@@ -2465,24 +2185,20 @@
         elNode.releasePointerCapture?.(e.pointerId);
         elNode.style.cursor = "grab";
       }
-
       function onWheel(e) {
         e.preventDefault();
         e.stopPropagation();
         setActiveStickerB(s.id);
-
         const delta = -e.deltaY;
         const step = delta > 0 ? 1.08 : 0.92;
         s.scale = clampScale(s.scale * step);
         applyTransformB(elNode, s);
       }
-
       function onTouchStart(e) {
         if (e.touches.length === 2) {
           e.preventDefault();
           e.stopPropagation();
           setActiveStickerB(s.id);
-
           gestureActive = true;
           const p1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
           const p2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
@@ -2492,43 +2208,28 @@
           startRot = s.rot;
         }
       }
-
       function onTouchMove(e) {
         if (!gestureActive || e.touches.length !== 2) return;
         e.preventDefault();
-
         const p1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         const p2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
-
         const d = distBetween(p1, p2);
         const a = angleBetween(p1, p2);
-
         const ratio = d / Math.max(1, startDist);
         s.scale = clampScale(startScale * ratio);
         s.rot = startRot + (a - startGestureAngle);
-
         applyTransformB(elNode, s);
       }
-
       function onTouchEnd(e) {
         if (e.touches.length < 2) gestureActive = false;
       }
-
-      elNode.add
-
-     // --- bind events (pointer + wheel + touch-gesture) ---
       elNode.addEventListener("pointerdown", onDown);
       window.addEventListener("pointermove", onMove);
       window.addEventListener("pointerup", onUp);
-
       elNode.addEventListener("wheel", onWheel, { passive: false });
-
-      // two-finger gesture for mobile
       elNode.addEventListener("touchstart", onTouchStart, { passive: false });
       elNode.addEventListener("touchmove", onTouchMove, { passive: false });
       elNode.addEventListener("touchend", onTouchEnd, { passive: true });
-
-      // quick delete: double click / double tap
       elNode.addEventListener("dblclick", (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -2536,66 +2237,41 @@
         if (activeStickerIdB === s.id) activeStickerIdB = null;
       });
     }
-
     function createStickerB(symbol) {
       const host = decorLayerB.getBoundingClientRect();
       const id = "st_" + Math.random().toString(16).slice(2);
-
       const baseSize = Number(stickerSizeB.value || 34);
-      const s = {
-        id,
-        symbol,
-        xPct: 0.50,
-        yPct: 0.50,
-        rot: 0,
-        scale: 1
-      };
+      const s = { id, symbol, xPct: 0.50, yPct: 0.50, rot: 0, scale: 1 };
       stickersB.push(s);
-
       const node = document.createElement("div");
       node.className = "sticker";
       node.dataset.id = id;
       node.textContent = symbol;
-
-      // size is font-size for emoji
       node.style.fontSize = baseSize + "px";
-
-      // initial placement (center)
       node.style.left = (s.xPct * host.width) + "px";
       node.style.top  = (s.yPct * host.height) + "px";
       applyTransformB(node, s);
-
-      node.addEventListener("pointerdown", () => setActiveStickerB(id));
       makeTransformableB(node, s);
-
       decorLayerB.appendChild(node);
       setActiveStickerB(id);
       softChime("place");
     }
-
-    // Place sticker
     placeStickerBtnB.addEventListener("click", () => {
       const sym = stickerSelectB.value || "🩷";
       createStickerB(sym);
     });
-
-    // Clear stickers
     clearStickersBtnB.addEventListener("click", () => {
       stickersB.length = 0;
       decorLayerB.innerHTML = "";
       activeStickerIdB = null;
       softChime("gate");
     });
-
-    // Tap empty space to deselect sticker
     decorLayerB.addEventListener("pointerdown", (e) => {
       if (e.target === decorLayerB) {
         activeStickerIdB = null;
         decorLayerB.querySelectorAll(".sticker").forEach(elm => (elm.style.outline = "none"));
       }
     });
-
-    // Delete active sticker via keyboard (desktop)
     window.addEventListener("keydown", (e) => {
       if (!activeStickerIdB) return;
       if (e.key === "Backspace" || e.key === "Delete") {
@@ -2603,8 +2279,6 @@
         activeStickerIdB = null;
       }
     });
-
-    // Keep stickers stable on resize (re-apply % positions)
     function reflowStickersB() {
       const host = decorLayerB.getBoundingClientRect();
       stickersB.forEach(s => {
@@ -2615,11 +2289,9 @@
         applyTransformB(node, s);
       });
     }
-    window.addEventListener("resize", () => {
-      reflowStickersB();
-    });
-
-    // Make sure sound buttons reflect initial state
+    window.addEventListener("resize", () => reflowStickersB());
     updateAllSoundButtons();
-
+  </script>
+</body>
+</html>
 
