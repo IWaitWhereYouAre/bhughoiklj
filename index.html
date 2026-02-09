@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
+  />
+  <meta name="theme-color" content="#FFFBF4" />
   <title>Heart to Heart | ISA Chulalongkorn</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- html2canvas (works on iOS/Android/Desktop; saving handled with robust fallback below) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+          integrity="sha512-BNa5lR0o8q+4d2mWcP1bB7P0P0qQ7Qy0cJQ8o0c5o6WmU6xF2w0o3oWqv3bW0oZxkqQw6xj9tq8u0p1p0Q=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Pinyon+Script&display=swap');
@@ -39,23 +47,23 @@
       --gold-rgb: 212,175,55;
       --green-rgb: 26,42,29;
 
-       /* =========================
-           ACT A — VALENTINE REDS (NO GREEN)
-          ========================= */
-        --val-crimson: #C3163A; /* vivid ceremonial crimson */
-       --val-wine:    #5A0F1B; /* deep wine */
-       --val-velvet:  #7A0624; /* velvet red (warmer, richer) */
+      /* =========================
+         ACT A — VALENTINE REDS (NO GREEN)
+         ========================= */
+      --val-crimson: #C3163A;
+      --val-wine:    #5A0F1B;
+      --val-velvet:  #7A0624;
 
-       --valentine-grad: linear-gradient(135deg,
-         var(--val-crimson) 0%,
-         var(--val-wine) 50%,
-         var(--val-velvet) 100%
-        );
+      --valentine-grad: linear-gradient(135deg,
+        var(--val-crimson) 0%,
+        var(--val-wine) 50%,
+        var(--val-velvet) 100%
+      );
 
-       --valentine-glow: radial-gradient(780px 520px at 50% 26%,
-         rgba(195,22,58,0.34),
-         rgba(90,15,27,0.00) 66%
-        );
+      --valentine-glow: radial-gradient(780px 520px at 50% 26%,
+        rgba(195,22,58,0.34),
+        rgba(90,15,27,0.00) 66%
+      );
 
       /* App base (overridden per view) */
       --bg: var(--porcelain);
@@ -63,6 +71,15 @@
       --card: rgba(255,255,255,0.62);
       --stroke: rgba(58,36,48,0.12);
       --shadow: 0 22px 60px rgba(58,36,48,0.14);
+
+      /* Safe-area */
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* Reduce motion accessibility */
+    @media (prefers-reduced-motion: reduce){
+      * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
     }
 
     html, body{
@@ -72,11 +89,18 @@
       color: var(--fg);
       font-family: 'Lato', sans-serif;
       -webkit-text-size-adjust:100%;
-      touch-action:manipulation;
+      text-size-adjust:100%;
+      touch-action: manipulation;
+      overscroll-behavior: none;
     }
     body{
       min-height: 100svh;
       overflow: hidden;
+    }
+
+    /* Better tap feel */
+    button, [role="button"], .home-card, .trait, .card{
+      -webkit-tap-highlight-color: transparent;
     }
 
     /* App wrapper becomes scroll container */
@@ -85,18 +109,20 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       position: relative;
+      padding-bottom: var(--safe-bottom);
     }
+
     .view{
       display:none;
       min-height: 100svh;
       box-sizing: border-box;
       position: relative;
-      padding: 22px 20px 70px;
+      padding: calc(22px + var(--safe-top)) 20px calc(70px + var(--safe-bottom));
     }
     .view.active{ display:block; }
 
     /* =========================
-       NAV (gorgeous menu)
+       NAV
        ========================= */
     .topbar{
       width: min(1100px, 96vw);
@@ -131,6 +157,10 @@
       border-color: rgba(255,255,255,0.40);
       box-shadow: 0 18px 50px rgba(58,36,48,0.16);
     }
+    .navbtn:focus-visible{
+      outline: 2px solid rgba(var(--gold-rgb),0.55);
+      outline-offset: 3px;
+    }
 
     /* =========================
        LAYERS (swapped per view)
@@ -141,10 +171,11 @@
       pointer-events: none;
       z-index: 0;
       display:none;
+      transform: translateZ(0);
     }
     .layer.on{ display:block; }
 
-    /* Soft luxury vignette (no darkness—just depth) */
+    /* Soft luxury vignette */
     .vignette{
       position:fixed; inset:0;
       pointer-events:none;
@@ -159,7 +190,7 @@
     .vignette.on{ display:block; }
 
     /* =========================
-       HOME (MERGED MENU EXPERIENCE)
+       HOME
        ========================= */
     #home{
       --bg: var(--porcelain);
@@ -249,6 +280,10 @@
       border-color: rgba(255,255,255,0.78);
       box-shadow: 0 22px 70px rgba(58,36,48,0.16);
     }
+    .home-card:focus-visible{
+      outline: 2px solid rgba(var(--gold-rgb),0.55);
+      outline-offset: 5px;
+    }
     .home-title{
       font-family:'Playfair Display', serif;
       font-size: 1.18rem;
@@ -275,7 +310,7 @@
     }
 
     /* =========================
-       ACT I BACKGROUND (WINE + GOLD, STILL BRIGHT)
+       ACT I BACKGROUND
        ========================= */
     #bgA.garden-bg{
       background:
@@ -318,6 +353,7 @@
       opacity:0;
       transform: translate3d(0,0,0);
       animation: heartFloat linear infinite;
+      will-change: transform, opacity;
     }
     .heart-mote svg{ width:100%; height:100%; display:block; }
 
@@ -334,7 +370,7 @@
     }
 
     /* =========================
-       ACT II BACKGROUND (CREAM GARDEN)
+       ACT II BACKGROUND
        ========================= */
     #bgB.garden-bg{
       background:
@@ -377,6 +413,7 @@
       animation: fall linear infinite;
       transform: rotate(12deg);
       opacity:0.85;
+      will-change: transform, opacity;
     }
     @keyframes fall{
       0%{transform:translate3d(0,-20px,0) rotate(10deg);}
@@ -408,19 +445,18 @@
     }
 
     /* =========================
-       EXPERIENCE A (TOKEN RITUAL)
+       EXPERIENCE A
        ========================= */
-#expA{
-  --bg: transparent;
-  --fg: var(--ink);
-  color: var(--ink);
-
-  background:
-    radial-gradient(980px 640px at 50% 12%, rgba(var(--rose-rgb),0.38), transparent 62%),
-    radial-gradient(900px 700px at 18% 28%, rgba(var(--wine2-rgb),0.30), transparent 62%),
-    radial-gradient(900px 760px at 82% 30%, rgba(var(--rose-rgb),0.26), transparent 62%),
-    radial-gradient(980px 860px at 50% 92%, rgba(var(--wine-rgb),0.18), transparent 68%),
-    linear-gradient(135deg, #FFF0F2 0%, #FFE3E8 42%, #FFF7F3 100%);
+    #expA{
+      --bg: transparent;
+      --fg: var(--ink);
+      color: var(--ink);
+      background:
+        radial-gradient(980px 640px at 50% 12%, rgba(var(--rose-rgb),0.38), transparent 62%),
+        radial-gradient(900px 700px at 18% 28%, rgba(var(--wine2-rgb),0.30), transparent 62%),
+        radial-gradient(900px 760px at 82% 30%, rgba(var(--rose-rgb),0.26), transparent 62%),
+        radial-gradient(980px 860px at 50% 92%, rgba(var(--wine-rgb),0.18), transparent 68%),
+        linear-gradient(135deg, #FFF0F2 0%, #FFE3E8 42%, #FFF7F3 100%);
     }
     #expA .container, #expB .container{
       width:100%;
@@ -432,11 +468,11 @@
     }
     #expA .isa-tag, #expB .isa-tag{ color: rgba(58,36,48,0.70); }
     #expA h1.main-title{
-  text-shadow: 0 18px 50px rgba(58,36,48,0.10);
-  background: var(--valentine-grad);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
+      text-shadow: 0 18px 50px rgba(58,36,48,0.10);
+      background: var(--valentine-grad);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
     }
     #expA .sub-theme{ color: rgba(58,36,48,0.62); }
     #expA .opening-line{
@@ -450,24 +486,22 @@
     }
 
     /* ritual bar */
-   #expA .ritual-bar{
-  width:min(860px, 96vw);
-  margin: 10px auto 14px;
-  border:1px solid rgba(var(--gold-rgb),0.42);
-  border-radius: 999px;
-
-  background:
-    linear-gradient(135deg,
-     rgba(255,240,245,0.88),
-     rgba(255,228,232,0.62)
-    );
-
-  backdrop-filter: blur(14px);
-  padding:10px 14px;
-  box-sizing:border-box;
-  position:relative;
-  overflow:hidden;
-  box-shadow: 0 18px 55px rgba(58,36,48,0.10);
+    #expA .ritual-bar{
+      width:min(860px, 96vw);
+      margin: 10px auto 14px;
+      border:1px solid rgba(var(--gold-rgb),0.42);
+      border-radius: 999px;
+      background:
+        linear-gradient(135deg,
+          rgba(255,240,245,0.88),
+          rgba(255,228,232,0.62)
+        );
+      backdrop-filter: blur(14px);
+      padding:10px 14px;
+      box-sizing:border-box;
+      position:relative;
+      overflow:hidden;
+      box-shadow: 0 18px 55px rgba(58,36,48,0.10);
     }
     #expA .ritual-bar::before{
       content:"";
@@ -593,6 +627,10 @@
       box-shadow: 0 22px 70px rgba(58,36,48,0.14);
       transform: translateY(-1px);
     }
+    #expA .trait:focus-visible{
+      outline: 2px solid rgba(var(--gold-rgb),0.55);
+      outline-offset: 4px;
+    }
     #expA .trait-title{
       font-family:'Playfair Display', serif;
       font-size:1.02rem;
@@ -644,14 +682,15 @@
         rgba(var(--rose-rgb),0.70) 100%);
       box-shadow: 0 0 0 4px rgba(var(--gold-rgb),0.10);
     }
-/* Receipt title must match main title exactly (Act A) */
-#expA #a-capture-frame h2{
-  background: var(--valentine-grad) !important;
-  -webkit-background-clip:text !important;
-  background-clip:text !important;
-  color: transparent !important;
-  text-shadow: 0 18px 50px rgba(58,36,48,0.10) !important;
-}
+
+    /* Receipt title must match main title exactly (Act A) */
+    #expA #a-capture-frame h2{
+      background: var(--valentine-grad) !important;
+      -webkit-background-clip:text !important;
+      background-clip:text !important;
+      color: transparent !important;
+      text-shadow: 0 18px 50px rgba(58,36,48,0.10) !important;
+    }
 
     #expA .btn, #expB .btn{
       border:1px solid rgba(var(--gold-rgb),0.28);
@@ -673,6 +712,10 @@
       transform: translateY(-1px);
       box-shadow: 0 22px 70px rgba(58,36,48,0.14);
       border-color: rgba(var(--gold-rgb),0.44);
+    }
+    #expA .btn:focus-visible, #expB .btn:focus-visible{
+      outline: 2px solid rgba(var(--gold-rgb),0.55);
+      outline-offset: 4px;
     }
     #expA .btn-save, #expB .btn-save{
       background: linear-gradient(135deg, rgba(var(--gold-rgb),0.95), rgba(var(--old-gold),0.90));
@@ -763,7 +806,7 @@
     }
 
     /* =========================
-       EXPERIENCE B (TAROT / DECK) — CREAM GARDEN
+       EXPERIENCE B
        ========================= */
     #expB{
       --bg: var(--porcelain);
@@ -954,47 +997,39 @@
       line-height: 1.35;
       color: rgba(var(--green-rgb),0.72);
     }
-/* =========================
-   SEAL STYLES (Act A vs Act B)
-   ========================= */
 
-    /* Act A: formal, archival, ID-stamp */
-       .seal-a{
-       display:block;
+    /* =========================
+       SEAL STYLES
+       ========================= */
+    .seal-a{
+      display:block;
       margin: 10px auto 14px;
       text-align:center;
-
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",   monospace;
-    font-size: 0.62rem;
-    letter-spacing: 3.2px;
-    text-transform: uppercase;
-
-  color: rgba(var(--rose-rgb),0.82);
-  opacity: 0.95;
-
-  padding: 6px 10px;
-  width: fit-content;
-  border-radius: 10px;
-  border: 1px solid rgba(var(--rose-rgb),0.22);
-  background: rgba(255,255,255,0.50);
-  backdrop-filter: blur(10px);
-}
-
-/* Act B: poetic, softened */
-.seal-b{
-  display:block;
-  margin: 10px auto 14px;
-  text-align:center;
-
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  font-size: 0.62rem;
-  letter-spacing: 2.2px;
-  text-transform: uppercase;
-
-  color: rgba(var(--gold-rgb),0.72);
-  opacity: 0.86;
-}
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.62rem;
+      letter-spacing: 3.2px;
+      text-transform: uppercase;
+      color: rgba(var(--rose-rgb),0.82);
+      opacity: 0.95;
+      padding: 6px 10px;
+      width: fit-content;
+      border-radius: 10px;
+      border: 1px solid rgba(var(--rose-rgb),0.22);
+      background: rgba(255,255,255,0.50);
+      backdrop-filter: blur(10px);
+    }
+    .seal-b{
+      display:block;
+      margin: 10px auto 14px;
+      text-align:center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.62rem;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: rgba(var(--gold-rgb),0.72);
+      opacity: 0.86;
+    }
   </style>
 </head>
 
@@ -1016,14 +1051,12 @@
         <p class="sub-theme">one heart reads into the next.</p>
 
         <div class="home-grid">
-          <div class="home-card" id="goA" role="button" tabindex="0">
+          <div class="home-card" id="goA" role="button" tabindex="0" aria-label="Enter On One’s Heart">
             <p class="home-title">On One’s Heart</p>
-            <p class="home-desc">
-              Spend 3 tokens on traits → receive a mirror of your essence and counsel.
-            </p>
+            <p class="home-desc">Spend 3 tokens on traits → receive a mirror of your essence and counsel.</p>
           </div>
 
-          <div class="home-card" id="goB" role="button" tabindex="0">
+          <div class="home-card" id="goB" role="button" tabindex="0" aria-label="Enter The Secret Garden">
             <p class="home-title">The Secret Garden</p>
             <p class="home-desc">
               Shuffle with intentions → draw a card → receive a quote, a book and a movie recommendation,
@@ -1039,7 +1072,7 @@
     <!-- EXPERIENCE A -->
     <section id="expA" class="view">
       <div class="topbar">
-        <button class="navbtn" id="a-home">← Menu</button>
+        <button class="navbtn" id="a-home" type="button">← Menu</button>
       </div>
 
       <div class="container">
@@ -1142,7 +1175,7 @@
             <button class="btn btn-sound active" id="a-soundBtnResult" type="button">Sound: On</button>
             <button class="btn" id="a-goB" type="button">Continue → Garden Deck</button>
           </div>
-          <p class="tiny-note">Saved to your downloads folder</p>
+          <p class="tiny-note">If your device blocks downloads (iPhone/iPad), it will open the image in a new tab → long-press → “Save Image”.</p>
         </div>
       </div>
     </section>
@@ -1150,7 +1183,7 @@
     <!-- EXPERIENCE B -->
     <section id="expB" class="view">
       <div class="topbar">
-        <button class="navbtn" id="b-home">← Menu</button>
+        <button class="navbtn" id="b-home" type="button">← Menu</button>
       </div>
 
       <div class="container">
@@ -1249,6 +1282,10 @@
               <button class="btn" id="b-placeStickerBtn" type="button">Place Sticker</button>
               <button class="btn" id="b-clearStickersBtn" type="button">Clear</button>
             </div>
+
+            <p class="tiny-note" style="margin: 2px 0 0; text-align:center;">
+              Tip: Drag to move. Wheel to resize (desktop). Two-finger pinch/rotate (mobile). Double-tap to delete. Delete/Backspace deletes selected.
+            </p>
           </div>
 
           <div style="margin-top:18px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
@@ -1256,6 +1293,7 @@
             <button class="btn btn-save" id="b-saveBtn" type="button">Save Picture</button>
             <button class="btn btn-sound active" id="b-soundBtnResult" type="button">Sound: On</button>
           </div>
+          <p class="tiny-note">If iOS blocks download, it opens the image → long-press → Save Image.</p>
         </div>
       </div>
     </section>
@@ -1267,6 +1305,63 @@
        ========================= */
     const views = ["home","expA","expB"];
     const el = (id)=>document.getElementById(id);
+
+    // iOS Safari often blocks programmatic downloads.
+    // This function tries download; if blocked it opens the image in a new tab for manual save.
+    async function exportElementAsPNG(node, filename){
+      const dpr = Math.min(2.5, Math.max(1.5, window.devicePixelRatio || 2)); // crisp but safe on mobile memory
+      const canvas = await html2canvas(node, {
+        backgroundColor: null,
+        scale: dpr,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        scrollX: 0,
+        scrollY: -window.scrollY
+      });
+
+      const toBlob = (c) => new Promise((resolve) => {
+        if (c.toBlob) c.toBlob(resolve, "image/png", 1);
+        else resolve(null);
+      });
+
+      const blob = await toBlob(canvas);
+      if (blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        // Some browsers need the click to be directly inside the user gesture; this still works in most cases.
+        a.click();
+        a.remove();
+
+        // If iOS ignores download, open a tab fallback (user can long-press save).
+        // We detect iOS-ish + no "download" support.
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        const canDownload = "download" in HTMLAnchorElement.prototype;
+        if (isIOS || !canDownload) {
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+
+        setTimeout(()=>URL.revokeObjectURL(url), 60000);
+        return;
+      }
+
+      // Worst-case: dataURL
+      const dataUrl = canvas.toDataURL("image/png");
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      if (isIOS) window.open(dataUrl, "_blank", "noopener,noreferrer");
+      else {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+    }
 
     /* =========================
        SHARED RITUAL STATE (A -> B)
@@ -1280,10 +1375,10 @@
       slip: null,
       traitTokens: null
     };
-function getShortSeal(){
-  if (!Ritual.seal) return "—";
-  return Ritual.seal.replace("ISA-H2H-", "");
-}
+    function getShortSeal(){
+      if (!Ritual.seal) return "—";
+      return Ritual.seal.replace("ISA-H2H-", "");
+    }
 
     /* =========================
        HOUSE STYLE (A drives B)
@@ -1309,6 +1404,7 @@ function getShortSeal(){
         el("petalsB").classList.remove("on");
         el("birdsB").classList.remove("on");
         el("vignette").classList.add("on");
+
         document.documentElement.style.setProperty("--bg", "#FFF7F2");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--ink"));
         document.body.style.backgroundColor = "#FFF7F2";
@@ -1321,6 +1417,7 @@ function getShortSeal(){
         el("petalsB").classList.add("on");
         el("birdsB").classList.add("on");
         el("vignette").classList.add("on");
+
         applyHouseMoodToGarden();
         document.documentElement.style.setProperty("--bg", "#FFFEFA");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--deep-green"));
@@ -1334,13 +1431,15 @@ function getShortSeal(){
         el("petalsB").classList.remove("on");
         el("birdsB").classList.remove("on");
         el("vignette").classList.remove("on");
+
         document.documentElement.style.setProperty("--bg", "#FFFBF4");
         document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--ink"));
         document.body.style.backgroundColor = "#FFFBF4";
         document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--ink");
         if(audioPrimed) setPianoMood("A");
       }
-      el("app").scrollTo({ top: 0, behavior: "instant" });
+      // "instant" is not a valid scroll behavior; use auto.
+      el("app").scrollTo({ top: 0, behavior: "auto" });
     }
 
     function showView(id){
@@ -1433,7 +1532,7 @@ function getShortSeal(){
     window.addEventListener("resize", ()=> spawnHeartsA(window.innerWidth < 480 ? 14 : 20));
 
     /* =========================
-       PETALS + BIRDS (B)  (VISUAL ONLY — SOUND IS ALL PIANO)
+       PETALS + BIRDS (B)
        ========================= */
     const petalsHostB = el("petalsB");
     function spawnPetalsB(count = 18) {
@@ -1533,7 +1632,6 @@ function getShortSeal(){
     let pianoLoopTimer = null;
     let pianoIsRunning = false;
 
-    // Scene mood changes chord progression slightly (still piano-only)
     let sceneMood = "A"; // "A" or "B"
 
     function ensureAudio() {
@@ -1561,7 +1659,6 @@ function getShortSeal(){
       masterGain.gain.setValueAtTime(masterGain.gain.value, now);
       masterGain.gain.exponentialRampToValueAtTime(soundOn ? 0.65 : 0.0001, now + 0.12);
 
-      // set mood based on current active view
       const currentView = views.find(v => el(v)?.classList.contains("active")) || "home";
       setPianoMood(currentView === "expB" ? "B" : "A");
 
@@ -1582,7 +1679,6 @@ function getShortSeal(){
       if (on) startPianoAmbience();
       else stopPianoAmbience();
     }
-
     function toggleSound(){ setSound(!soundOn); }
 
     function updateAllSoundButtons(){
@@ -1598,7 +1694,6 @@ function getShortSeal(){
 
     function setPianoMood(mood){
       sceneMood = (mood === "B") ? "B" : "A";
-      // subtle: slightly brighter in Garden by raising piano gain a hair (still tasteful)
       if (!audioPrimed || !audioCtx || !pianoGain) return;
       const now = audioCtx.currentTime;
       pianoGain.gain.cancelScheduledValues(now);
@@ -1607,13 +1702,14 @@ function getShortSeal(){
       pianoGain.gain.exponentialRampToValueAtTime(Math.max(0.0001, target), now + 0.35);
     }
 
+    // Prime sound on first user gesture (iOS/Android safe)
     (function bindAutoStart() {
       const once = async () => {
         await primeAndApplyAudio();
         window.removeEventListener("pointerdown", once);
         window.removeEventListener("keydown", once);
       };
-      window.addEventListener("pointerdown", once);
+      window.addEventListener("pointerdown", once, { passive:true });
       window.addEventListener("keydown", once);
     })();
 
@@ -1675,7 +1771,6 @@ function getShortSeal(){
       click.stop(t0 + 0.03);
     }
 
-    // mood-specific chords (still cohesive)
     const CHORDS_A = [
       [293.66, 369.99, 440.00],
       [392.00, 493.88, 587.33],
@@ -1999,6 +2094,7 @@ function getShortSeal(){
           }
         });
 
+        // long press remove (mobile)
         let pressTimer = null;
         tile.addEventListener("touchstart", ()=>{
           pressTimer = setTimeout(()=> addOrRemoveToken("remove"), 420);
@@ -2126,14 +2222,8 @@ function getShortSeal(){
     }
     aContinueToSlipBtn.addEventListener("click", showSlipA);
 
-    el("a-saveBtn").addEventListener("click", ()=>{
-      const captureArea = el("a-capture-frame");
-      html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'HeartToHeart_ISA_ReflectionSlip.png';
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
+    el("a-saveBtn").addEventListener("click", async ()=>{
+      await exportElementAsPNG(el("a-capture-frame"), "HeartToHeart_ISA_ReflectionSlip.png");
     });
 
     el("a-resetBtn").addEventListener("click", clearTraitsA);
@@ -2143,7 +2233,7 @@ function getShortSeal(){
     setStepA("token");
 
     /* =========================
-       EXPERIENCE B DATA (Quote/Book/Movie)
+       EXPERIENCE B DATA
        ========================= */
     const colorPalette = [
       { name:"Ivory Silk", hex:"#fffdf0", quote:"To love at all is to be vulnerable.", source:"C.S. Lewis", movie:"Shadowlands", book:"The Four Loves" },
@@ -2172,7 +2262,6 @@ function getShortSeal(){
       school:   ["Slate Manor","Linen Prayer","Old Manor Taupe","Terracotta Sundial","Biedermeier Blue","Vintage Champagne"]
     };
 
-    /* ✅ Trait bias (exact traits bend the pool) */
     const TRAIT_BIAS = {
       fast:   ["English Lavender","Tudor Rose"],
       numb:   ["Cemetery Stone","Pale Concrete"],
@@ -2193,7 +2282,6 @@ function getShortSeal(){
         .map(([id])=>id);
     }
 
-    /* ✅ House pool + Trait bias merged */
     function pickFromHousePool(){
       const hk = getHouseKeyForB();
       const houseNames = HOUSE_PALETTE[hk] || HOUSE_PALETTE.family;
@@ -2202,7 +2290,6 @@ function getShortSeal(){
       const traitNames = topTraits.flatMap(tid => TRAIT_BIAS[tid] || []);
 
       const combined = [...new Set([...traitNames, ...houseNames])];
-
       const pool = colorPalette.filter(c => combined.includes(c.name));
       const chooseFrom = pool.length ? pool : colorPalette;
       return chooseFrom[Math.floor(Math.random() * chooseFrom.length)];
@@ -2277,7 +2364,6 @@ function getShortSeal(){
 
       document.body.style.backgroundColor = data.hex;
 
-      // piano mood switches when entering B result
       if(audioPrimed) setPianoMood("B");
 
       setTimeout(() => {
@@ -2291,14 +2377,8 @@ function getShortSeal(){
       }, 900);
     }
 
-    el("b-saveBtn").addEventListener("click", ()=>{
-      const captureArea = el('b-capture-frame');
-      html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = 'HeartToHeart_ISA.png';
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      });
+    el("b-saveBtn").addEventListener("click", async ()=>{
+      await exportElementAsPNG(el("b-capture-frame"), "HeartToHeart_ISA.png");
     });
 
     el("b-resetBtn").addEventListener("click", ()=>{
@@ -2313,8 +2393,6 @@ function getShortSeal(){
       stickersB.length = 0;
       decorLayerB.innerHTML = "";
       applyHouseMoodToGarden();
-
-      // go back to A mood on reset
       if(audioPrimed) setPianoMood("A");
     });
 
@@ -2591,3 +2669,4 @@ function getShortSeal(){
   </script>
 </body>
 </html>
+
