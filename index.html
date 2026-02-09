@@ -978,22 +978,20 @@
       <div class="home-wrap">
         <p class="isa-tag">ISA Chulalongkorn Presents</p>
         <h1 class="main-title">Heart to Heart</h1>
-        <p class="sub-theme">Choose your ritual.</p>
+        <p class="sub-theme">one one heart will read to the next ine .</p>
 
         <div class="home-grid">
           <div class="home-card" id="goA">
-            <p class="home-title">Ritual of Recognition</p>
+            <p class="home-title">On One’s Heart</p>
             <p class="home-desc">
-              Spend 3 tokens on traits → recognition gate → receive an articulation + counsel slip.
-              (Deep wine + gold hearts, serious intimacy.)
+              Spend 3 tokens on traits → receive a mirror of your essence and counsel.
             </p>
           </div>
 
           <div class="home-card" id="goB">
-            <p class="home-title">The Secret Garden Deck</p>
+            <p class="home-title">The Secret Garden</p>
             <p class="home-desc">
-              Shuffle intentions → draw a secret → decorate your card (and optional photo).
-              (Cream garden, petals + birds, soft landing.)
+              Shuffle with intentions → draw a card → receive a quote, a book and a movie recommendation along with the ability to decorate your card and add a photo.
             </p>
           </div>
         </div>
@@ -2517,5 +2515,111 @@
       }
 
       elNode.add
+
+     // --- bind events (pointer + wheel + touch-gesture) ---
+      elNode.addEventListener("pointerdown", onDown);
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+
+      elNode.addEventListener("wheel", onWheel, { passive: false });
+
+      // two-finger gesture for mobile
+      elNode.addEventListener("touchstart", onTouchStart, { passive: false });
+      elNode.addEventListener("touchmove", onTouchMove, { passive: false });
+      elNode.addEventListener("touchend", onTouchEnd, { passive: true });
+
+      // quick delete: double click / double tap
+      elNode.addEventListener("dblclick", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        removeStickerB(s.id);
+        if (activeStickerIdB === s.id) activeStickerIdB = null;
+      });
+    }
+
+    function createStickerB(symbol) {
+      const host = decorLayerB.getBoundingClientRect();
+      const id = "st_" + Math.random().toString(16).slice(2);
+
+      const baseSize = Number(stickerSizeB.value || 34);
+      const s = {
+        id,
+        symbol,
+        xPct: 0.50,
+        yPct: 0.50,
+        rot: 0,
+        scale: 1
+      };
+      stickersB.push(s);
+
+      const node = document.createElement("div");
+      node.className = "sticker";
+      node.dataset.id = id;
+      node.textContent = symbol;
+
+      // size is font-size for emoji
+      node.style.fontSize = baseSize + "px";
+
+      // initial placement (center)
+      node.style.left = (s.xPct * host.width) + "px";
+      node.style.top  = (s.yPct * host.height) + "px";
+      applyTransformB(node, s);
+
+      node.addEventListener("pointerdown", () => setActiveStickerB(id));
+      makeTransformableB(node, s);
+
+      decorLayerB.appendChild(node);
+      setActiveStickerB(id);
+      softChime("place");
+    }
+
+    // Place sticker
+    placeStickerBtnB.addEventListener("click", () => {
+      const sym = stickerSelectB.value || "🩷";
+      createStickerB(sym);
+    });
+
+    // Clear stickers
+    clearStickersBtnB.addEventListener("click", () => {
+      stickersB.length = 0;
+      decorLayerB.innerHTML = "";
+      activeStickerIdB = null;
+      softChime("gate");
+    });
+
+    // Tap empty space to deselect sticker
+    decorLayerB.addEventListener("pointerdown", (e) => {
+      if (e.target === decorLayerB) {
+        activeStickerIdB = null;
+        decorLayerB.querySelectorAll(".sticker").forEach(elm => (elm.style.outline = "none"));
+      }
+    });
+
+    // Delete active sticker via keyboard (desktop)
+    window.addEventListener("keydown", (e) => {
+      if (!activeStickerIdB) return;
+      if (e.key === "Backspace" || e.key === "Delete") {
+        removeStickerB(activeStickerIdB);
+        activeStickerIdB = null;
+      }
+    });
+
+    // Keep stickers stable on resize (re-apply % positions)
+    function reflowStickersB() {
+      const host = decorLayerB.getBoundingClientRect();
+      stickersB.forEach(s => {
+        const node = decorLayerB.querySelector(`[data-id="${s.id}"]`);
+        if (!node) return;
+        node.style.left = (s.xPct * host.width) + "px";
+        node.style.top  = (s.yPct * host.height) + "px";
+        applyTransformB(node, s);
+      });
+    }
+    window.addEventListener("resize", () => {
+      reflowStickersB();
+    });
+
+    // Make sure sound buttons reflect initial state
+    updateAllSoundButtons();
 
 
