@@ -39,6 +39,24 @@
       --gold-rgb: 212,175,55;
       --green-rgb: 26,42,29;
 
+       /* =========================
+           ACT A — VALENTINE REDS (NO GREEN)
+          ========================= */
+        --val-crimson: #C3163A; /* vivid ceremonial crimson */
+       --val-wine:    #5A0F1B; /* deep wine */
+       --val-velvet:  #7A0624; /* velvet red (warmer, richer) */
+
+       --valentine-grad: linear-gradient(135deg,
+         var(--val-crimson) 0%,
+         var(--val-wine) 50%,
+         var(--val-velvet) 100%
+        );
+
+       --valentine-glow: radial-gradient(780px 520px at 50% 26%,
+         rgba(195,22,58,0.34),
+         rgba(90,15,27,0.00) 66%
+        );
+
       /* App base (overridden per view) */
       --bg: var(--porcelain);
       --fg: var(--ink);
@@ -393,18 +411,16 @@
        EXPERIENCE A (TOKEN RITUAL)
        ========================= */
 #expA{
-      --bg: transparent;
-      --fg: var(--ink);
-      color: var(--ink);
+  --bg: transparent;
+  --fg: var(--ink);
+  color: var(--ink);
 
-      background:
-         radial-gradient(900px 600px at 18% 22%, rgba(var(--rose-rgb),0.32), transparent 60%),
-         radial-gradient(900px 700px at 82% 28%, rgba(var(--gold-rgb),0.30), transparent 62%),
-         radial-gradient(900px 800px at 50% 88%, rgba(var(--wine2-rgb),0.28), transparent 65%),
-         linear-gradient(135deg,
-            #FFF0F2 0%,
-            #FFE6EA 38%,
-            #FFF6F2 100%);
+  background:
+    radial-gradient(980px 640px at 50% 12%, rgba(var(--rose-rgb),0.38), transparent 62%),
+    radial-gradient(900px 700px at 18% 28%, rgba(var(--wine2-rgb),0.30), transparent 62%),
+    radial-gradient(900px 760px at 82% 30%, rgba(var(--rose-rgb),0.26), transparent 62%),
+    radial-gradient(980px 860px at 50% 92%, rgba(var(--wine-rgb),0.18), transparent 68%),
+    linear-gradient(135deg, #FFF0F2 0%, #FFE3E8 42%, #FFF7F3 100%);
     }
     #expA .container, #expB .container{
       width:100%;
@@ -416,9 +432,11 @@
     }
     #expA .isa-tag, #expB .isa-tag{ color: rgba(58,36,48,0.70); }
     #expA h1.main-title{
-      text-shadow:none;
-      background: linear-gradient(135deg, rgba(var(--gold-rgb),0.98), rgba(var(--rose-rgb),0.88), rgba(var(--wine2-rgb),0.88));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow: 0 18px 50px rgba(58,36,48,0.10);
+  background: var(--valentine-grad);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
     }
     #expA .sub-theme{ color: rgba(58,36,48,0.62); }
     #expA .opening-line{
@@ -626,6 +644,14 @@
         rgba(var(--rose-rgb),0.70) 100%);
       box-shadow: 0 0 0 4px rgba(var(--gold-rgb),0.10);
     }
+/* Receipt title must match main title exactly (Act A) */
+#expA #a-capture-frame h2{
+  background: var(--valentine-grad) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  color: transparent !important;
+  text-shadow: 0 18px 50px rgba(58,36,48,0.10) !important;
+}
 
     #expA .btn, #expB .btn{
       border:1px solid rgba(var(--gold-rgb),0.28);
@@ -1075,8 +1101,7 @@
               ISA Chulalongkorn
             </span>
             <h2 style="font-family:'Pinyon Script',cursive; font-size:2.8rem; margin:0; line-height:1.02;
-            background: linear-gradient(135deg, rgba(var(--green-rgb),0.92), rgba(var(--gold-rgb),0.88));
-              -webkit-background-clip:text; background-clip:text; color:transparent;">
+             -webkit-background-clip:text; background-clip:text; color:transparent;">
               Heart to Heart
             </h2>
             <div id="a-seal" class="seal-a">Seal: —</div>
@@ -1084,7 +1109,6 @@
             <div class="pill-row">
               <span class="pill" id="a-pill-primary">House: —</span>
               <span class="pill" id="a-pill-secondary">Secondary: —</span>
-              <span class="pill" id="a-pill-sig">Seal: —</span>
             </div>
 
             <div style="font-family:'Playfair Display',serif; font-size: clamp(1.15rem, 4vw, 1.55rem); line-height: 1.35; margin: 18px 0 12px; font-style: italic; color: rgba(58,36,48,0.92);" id="a-frontLine"></div>
@@ -2085,7 +2109,6 @@ function getShortSeal(){
 
       el("a-pill-primary").textContent = `House: ${teachers[primaryKey].label}`;
       el("a-pill-secondary").textContent = `Secondary: ${secondaryKey ? teachers[secondaryKey].label : "—"}`;
-      el("a-pill-sig").textContent = `Seal: ${Ritual.seal}`;
       el("a-seal").textContent = `Seal: ${Ritual.seal}`;
 
       el("a-frontLine").textContent = slip.pattern;
@@ -2568,5 +2591,13 @@ function getShortSeal(){
   </script>
 </body>
 </html>
+
+Act A should visually communicate Valentine’s Day at first glance.
+The title “Heart to Heart” must use a deep, vivid Valentine red gradient, inspired by the title “Heart to Heart” in the Menu page, but richer, warmer, and romantic. The red should feel luxurious, ceremonial, and emotionally charged. Use a deep Valentine red gradient (crimson → wine → velvet red). No green tones anywhere in Act A. The visual mood should feel intimate, sacred, and heart-centric.
+Receipt Design Consistency
+The receipt title “Heart to Heart” must perfectly match the main title.
+Seal Rules
+The seal and its code in the Act A receipt must appear only once.
+Remove any duplicate or repeat.
 
 
