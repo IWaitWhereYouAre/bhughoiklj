@@ -392,10 +392,19 @@
     /* =========================
        EXPERIENCE A (TOKEN RITUAL)
        ========================= */
-    #expA{
-      --bg: var(--porcelain);
+#expA{
+      --bg: transparent;
       --fg: var(--ink);
       color: var(--ink);
+
+      background:
+         radial-gradient(900px 600px at 18% 22%, rgba(var(--rose-rgb),0.32), transparent 60%),
+         radial-gradient(900px 700px at 82% 28%, rgba(var(--gold-rgb),0.30), transparent 62%),
+         radial-gradient(900px 800px at 50% 88%, rgba(var(--wine2-rgb),0.28), transparent 65%),
+         linear-gradient(135deg,
+            #FFF0F2 0%,
+            #FFE6EA 38%,
+            #FFF6F2 100%);
     }
     #expA .container, #expB .container{
       width:100%;
@@ -428,7 +437,14 @@
       margin: 10px auto 14px;
       border:1px solid rgba(var(--gold-rgb),0.28);
       border-radius: 999px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.64), rgba(255,255,255,0.42));
+    #expA .ritual-bar{
+      background:
+        linear-gradient(135deg,
+         rgba(255,240,245,0.88),
+         rgba(255,228,232,0.62)
+        );
+       border-color: rgba(var(--gold-rgb),0.42);
+    }
       backdrop-filter: blur(14px);
       padding:10px 14px;
       box-sizing:border-box;
@@ -914,19 +930,19 @@
       color: rgba(var(--green-rgb),0.72);
     }
     #b-seal{
-      position:absolute;
-      right: 18px;
-      top: 18px;
-      font-size: 0.55rem;
-      letter-spacing: 3px;
+      position: static;
+      display: block;
+      margin: 10px auto 10px;
+      text-align: center;
+
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.62rem;
+      letter-spacing: 2.6px;
       text-transform: uppercase;
+
       color: rgba(var(--gold-rgb),0.72);
-      background: rgba(255,255,255,0.55);
-      border: 1px solid rgba(var(--gold-rgb),0.24);
-      padding: 8px 10px;
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 14px 40px rgba(58,36,48,0.10);
+      opacity: 0.86;
     }
   </style>
 </head>
@@ -1030,19 +1046,21 @@
         <!-- RESULT SCREEN -->
         <div id="a-result-screen">
           <div id="a-capture-frame">
-            <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block; margin-bottom: 10px;">
+            <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block; margin-bottom:18px;">
               ISA Chulalongkorn
             </span>
-            <h2 style="font-family:'Pinyon Script',cursive; font-size:2.7rem; margin:0 0 8px 0; line-height:1;
-              background: linear-gradient(135deg, rgba(var(--gold-rgb),0.98), rgba(var(--rose-rgb),0.88));
+            <h2 style="font-family:'Pinyon Script',cursive; font-size:2.8rem; margin:0; line-height:1.02;
+            background: linear-gradient(135deg, rgba(var(--green-rgb),0.92), rgba(var(--gold-rgb),0.88));
               -webkit-background-clip:text; background-clip:text; color:transparent;">
               Heart to Heart
             </h2>
+            <div id="b-seal">Under this seal · —</div>
 
             <div class="pill-row">
               <span class="pill" id="a-pill-primary">House: —</span>
               <span class="pill" id="a-pill-secondary">Secondary: —</span>
               <span class="pill" id="a-pill-sig">Seal: —</span>
+              el("a-pill-sig").textContent = `Seal: ${Ritual.seal}`;
             </div>
 
             <div style="font-family:'Playfair Display',serif; font-size: clamp(1.15rem, 4vw, 1.55rem); line-height: 1.35; margin: 18px 0 12px; font-style: italic; color: rgba(58,36,48,0.92);" id="a-frontLine"></div>
@@ -1106,7 +1124,7 @@
 
         <div id="b-result-screen">
           <div id="b-capture-frame">
-            <div id="b-seal">Seal: —</div>
+            <div id="b-seal">Under this seal · —</div>
 
             <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--gold-rgb),0.88); display:block; margin-bottom:18px;">
               ISA Chulalongkorn
@@ -1214,6 +1232,10 @@
       slip: null,
       traitTokens: null
     };
+function getShortSeal(){
+  if (!Ritual.seal) return "—";
+  return Ritual.seal.replace("ISA-H2H-", "");
+}
 
     /* =========================
        HOUSE STYLE (A drives B)
@@ -2203,7 +2225,7 @@
       applyHouseMoodToGarden();
 
       el("b-caption").textContent = Ritual.counsel ? Ritual.counsel : "Take what resonates. Leave what doesn’t.";
-      el("b-seal").textContent = `Seal: ${Ritual.seal || "—"}`;
+      el("b-seal").textContent = `Under this seal · ${getShortSeal()}`;
 
       document.body.style.backgroundColor = data.hex;
 
@@ -2521,3 +2543,5 @@
   </script>
 </body>
 </html>
+
+
