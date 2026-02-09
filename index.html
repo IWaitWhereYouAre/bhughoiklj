@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Heart to Heart | ISA Chulalongkorn</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&family=Pinyon+Script&display=swap');
+
+    /* =========================
+       GLOBAL + ROUTER
+       ========================= */
+    :root{
+      /* default theme (can be switched per view) */
+      --bg: #0E0E11;
+      --fg: #FFF2DF;
+
+      /* A (Red/Gold) tokens */
+      --wine: #2A0710;
+      --royal-wine: #4A0B16;
+      --velvet-burgundy: #7B1E2B;
+      --crimson: #B21E35;
+      --antique-gold: #D4AF37;
+      --old-gold: #C9A24A;
+      --ivory: #FFF2DF;
+      --champagne: #F3E4C8;
+      --wine-rgb: 42,7,16;
+      --primary-rgb: 123,30,43;
+      --primary2-rgb: 178,30,53;
+      --secondary-rgb: 212,175,55;
+
+      /* B (Secret Garden) */
+      --gold:#c5a059;
+      --deep-green:#1a2a1d;
+      --cream:#f8f5f0;
+      --blush:#e8d5d1;
+    }
+
+    html, body{
+      width:100%; height:100%;
+      margin:0; padding:0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Lato', sans-serif;
+      -webkit-text-size-adjust:100%;
+      touch-action:manipulation;
+    }
+
+    body{
+      min-height: 100svh;
+      overflow: hidden; /* each view controls its own scrolling if needed */
+    }
+
+    /* App wrapper becomes scroll container */
+    #app{
+      height: 100svh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      position: relative;
+    }
+
+    .view{
+      display:none;
+      min-height: 100svh;
+      box-sizing: border-box;
+      position: relative;
+      padding: 20px 20px 60px;
+    }
+    .view.active{ display:block; }
+
+    /* common buttons */
+    .topbar{
+      width: min(1100px, 96vw);
+      margin: 0 auto 14px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 20;
+    }
+
+    .navbtn{
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.88);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .navbtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,0.35); }
+
+    /* =========================
+       HOME (MENU)
+       ========================= */
+    #home{
+      --bg: #0C0A0C;
+      --fg: #F8F5F0;
+      background:
+        radial-gradient(900px 600px at 20% 20%, rgba(197,160,89,0.12), transparent 60%),
+        radial-gradient(900px 700px at 80% 35%, rgba(178,30,53,0.12), transparent 60%),
+        linear-gradient(135deg, #070607 0%, #0C0A0C 55%, #13080F 100%);
+    }
+
+    .home-wrap{
+      width: min(980px, 94vw);
+      margin: 0 auto;
+      text-align:center;
+      padding-top: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .isa-tag{
+      font-size:0.6rem;
+      letter-spacing:3px;
+      margin-bottom:8px;
+      opacity:0.75;
+      text-transform:uppercase;
+      color: rgba(248,245,240,0.78);
+    }
+    h1.main-title{
+      font-family:'Pinyon Script', cursive;
+      font-size:clamp(3rem, 12vw, 6rem);
+      color: rgba(212,175,55,0.95);
+      margin:0;
+      line-height:1.1;
+      text-shadow: 0 14px 40px rgba(0,0,0,0.25);
+    }
+    .sub-theme{
+      font-family:'Playfair Display', serif;
+      font-size:clamp(0.7rem, 2vw, 1rem);
+      letter-spacing:clamp(4px,1vw,10px);
+      text-transform:uppercase;
+      margin: 10px 0 24px;
+      color: rgba(248,245,240,0.72);
+    }
+
+    .home-grid{
+      margin: 18px auto 0;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      width: min(840px, 96vw);
+    }
+    @media (max-width: 820px){ .home-grid{ grid-template-columns: 1fr; } }
+
+    .home-card{
+      text-align:left;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      padding: 18px 16px;
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .home-card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.26);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    }
+    .home-title{
+      font-family:'Playfair Display', serif;
+      font-size: 1.15rem;
+      margin: 0 0 6px;
+      color: rgba(255,255,255,0.92);
+    }
+    .home-desc{
+      margin: 0;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.72);
+    }
+
+    /* =========================
+       SHARED BACKGROUND LAYERS
+       (we will swap visibility per view)
+       ========================= */
+    .layer{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      display:none;
+    }
+    .layer.on{ display:block; }
+
+    /* A: Red/Gold background + hearts */
+    #bgA.garden-bg{
+      background:
+        radial-gradient(980px 720px at 18% 22%, rgba(var(--secondary-rgb),0.16), transparent 62%),
+        radial-gradient(900px 680px at 82% 32%, rgba(var(--primary2-rgb),0.18), transparent 60%),
+        radial-gradient(980px 760px at 45% 95%, rgba(var(--secondary-rgb),0.10), transparent 62%),
+        linear-gradient(135deg, #1C050B 0%, #2A0710 42%, #3A0914 100%);
+    }
+    #bgA.garden-bg::before{
+      content:"";
+      position:absolute; inset:-35%;
+      background:
+        radial-gradient(circle at 22% 28%, rgba(255,242,223,0.22), transparent 58%),
+        radial-gradient(circle at 78% 44%, rgba(212,175,55,0.14), transparent 62%),
+        radial-gradient(circle at 52% 74%, rgba(178,30,53,0.14), transparent 68%),
+        linear-gradient(120deg,
+          rgba(var(--secondary-rgb),0.10),
+          rgba(var(--primary-rgb),0.08),
+          rgba(var(--primary2-rgb),0.08)
+        );
+      filter: blur(22px);
+      opacity:0.9;
+      animation: gardenDrift 18s ease-in-out infinite;
+      transform: translate3d(0,0,0);
+    }
+    #bgA.garden-bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background-image:url("https://www.transparenttextures.com/patterns/natural-paper.png");
+      opacity:0.22;
+      mix-blend-mode:overlay;
+    }
+
+    #motesA{
+      z-index:2;
+      opacity:0.95;
+      overflow:hidden;
+    }
+    .heart-mote{
+      position:absolute;
+      width:28px;
+      height:28px;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.22));
+      opacity:0;
+      transform: translate3d(0,0,0);
+      animation: heartFloat linear infinite;
+    }
+    .heart-mote svg{ width:100%; height:100%; display:block; }
+
+    @keyframes heartFloat{
+      0%{ transform: translate3d(var(--x), 112vh, 0) rotate(var(--r)) scale(var(--s)); opacity:0; }
+      12%{ opacity:0.75; }
+      88%{ opacity:0.60; }
+      100%{ transform: translate3d(var(--x2), -18vh, 0) rotate(calc(var(--r) + 14deg)) scale(var(--s)); opacity:0; }
+    }
+
+    /* B: Secret garden background + petals + birds */
+    #bgB.garden-bg{
+      background:
+        radial-gradient(900px 700px at 20% 20%, rgba(197,160,89,0.14), transparent 60%),
+        radial-gradient(800px 650px at 80% 30%, rgba(232,213,209,0.18), transparent 55%),
+        radial-gradient(900px 700px at 40% 90%, rgba(26,42,29,0.14), transparent 55%),
+        linear-gradient(120deg, rgba(248,245,240,1), rgba(248,245,240,1));
+    }
+    #bgB.garden-bg::before{
+      content:"";
+      position:absolute; inset:-40%;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.55), transparent 55%),
+        radial-gradient(circle at 70% 40%, rgba(255,255,255,0.35), transparent 60%),
+        radial-gradient(circle at 50% 70%, rgba(255,255,255,0.25), transparent 65%),
+        linear-gradient(120deg, rgba(197,160,89,0.08), rgba(232,213,209,0.10), rgba(26,42,29,0.06));
+      filter:blur(18px);
+      opacity:0.9;
+      animation:gardenDrift 18s ease-in-out infinite;
+      transform:translate3d(0,0,0);
+    }
+    #bgB.garden-bg::after{
+      content:"";
+      position:absolute; inset:0;
+      background-image:url("https://www.transparenttextures.com/patterns/natural-paper.png");
+      opacity:0.55;
+      mix-blend-mode:multiply;
+    }
+
+    @keyframes gardenDrift{
+      0%{transform:translate(-4%,-2%) rotate(-2deg);}
+      50%{transform:translate(4%,2%) rotate(2deg);}
+      100%{transform:translate(-4%,-2%) rotate(-2deg);}
+    }
+
+    #petalsB{ z-index:2; overflow:hidden; }
+    .petal{
+      position:absolute;
+      top:-10%;
+      width:10px;
+      height:16px;
+      border-radius:60% 40% 60% 40%;
+      background:rgba(232,213,209,0.55);
+      box-shadow:0 0 0 1px rgba(197,160,89,0.08);
+      filter:blur(0.15px);
+      animation:fall linear infinite;
+      transform:rotate(12deg);
+      opacity:0.85;
+    }
+    @keyframes fall{
+      0%{transform:translate3d(0,-20px,0) rotate(10deg);}
+      100%{transform:translate3d(0,120vh,0) rotate(260deg);}
+    }
+
+    #birdsB{ z-index:3; overflow:hidden; opacity:0.65; filter:blur(0.1px); }
+    .bird{
+      position:absolute;
+      left:0; top:0;
+      width:56px; height:30px;
+      opacity:0.55;
+      animation:flyDiag linear infinite;
+      transform:translate3d(var(--fromX),var(--fromY),0) scale(var(--s,1));
+      will-change:transform,opacity;
+    }
+    @keyframes flyDiag{
+      0%{transform:translate3d(var(--fromX),var(--fromY),0) scale(var(--s,1)); opacity:0;}
+      10%{opacity:0.65;}
+      90%{opacity:0.55;}
+      100%{transform:translate3d(var(--toX),var(--toY),0) scale(var(--s,1)); opacity:0;}
+    }
+    .bird .wing{transform-box:fill-box; transform-origin:center; animation:flap 0.35s ease-in-out infinite;}
+    .bird .wing.right{animation-delay:0.02s;}
+    @keyframes flap{
+      0%{transform:rotate(8deg) scaleY(1);}
+      50%{transform:rotate(-18deg) scaleY(0.92);}
+      100%{transform:rotate(8deg) scaleY(1);}
+    }
+
+    .vignette{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:5;
+      background:
+        radial-gradient(1000px 700px at 50% 25%, transparent 60%, rgba(0,0,0,0.25) 100%),
+        radial-gradient(1200px 900px at 50% 120%, transparent 58%, rgba(0,0,0,0.30) 100%);
+      mix-blend-mode:multiply;
+      opacity:0.40;
+      display:none;
+    }
+    .vignette.on{ display:block; }
+
+    /* =========================
+       EXPERIENCE A (Tokens) — keep your original styles
+       (trimmed: you already have full code; we keep key UI)
+       ========================= */
+    #expA{
+      --bg: var(--wine);
+      --fg: var(--ivory);
+      color: var(--ivory);
+    }
+    #expA .container{
+      width:100%;
+      max-width:1200px;
+      margin: 0 auto;
+      text-align:center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* A: (from your original) */
+    #expA .opening-line{
+      margin: 12px auto 16px;
+      max-width: 720px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3.4vw, 1.6rem);
+      line-height: 1.45;
+      font-style: italic;
+      color: var(--ivory);
+      opacity:0.95;
+    }
+
+    #expA .ritual-bar{
+      width:min(820px, 96vw);
+      margin: 10px auto 12px;
+      border:1px solid rgba(var(--secondary-rgb),0.38);
+      border-radius: 999px;
+      background: rgba(255,242,223,0.10);
+      backdrop-filter: blur(8px);
+      padding:10px 12px;
+      box-sizing:border-box;
+      position:relative;
+      overflow:hidden;
+    }
+    #expA .ritual-bar::before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg,
+        rgba(var(--secondary-rgb),0.16),
+        rgba(var(--primary-rgb),0.10),
+        rgba(var(--secondary-rgb),0.10)
+      );
+      opacity:0.9;
+      pointer-events:none;
+    }
+    #expA .steps{
+      position:relative;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    #expA .step{
+      display:flex; gap:8px; align-items:center;
+      opacity:0.55;
+      transition: opacity .25s ease;
+      color: rgba(255,242,223,0.82);
+      min-width:0;
+    }
+    #expA .step.active{ opacity:1; }
+    #expA .step-dot{
+      width:10px; height:10px; border-radius:999px;
+      border:1px solid rgba(var(--secondary-rgb),0.62);
+      background: rgba(var(--secondary-rgb),0.12);
+      flex:0 0 auto;
+    }
+    #expA .step.active .step-dot{ background: rgba(var(--secondary-rgb),0.92); }
+    #expA .step-label{
+      font-size:0.58rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    #expA .token-top{
+      width:min(900px, 96vw);
+      margin: 0 auto 10px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    #expA .token-badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px;
+      border:1px solid rgba(var(--secondary-rgb),0.42);
+      border-radius:999px;
+      background: rgba(255,242,223,0.10);
+      backdrop-filter: blur(8px);
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:0.62rem;
+      opacity:0.98;
+      color: rgba(255,242,223,0.85);
+    }
+    #expA .token-dots{ display:inline-flex; gap:6px; }
+    #expA .dot{
+      width:10px; height:10px;
+      border-radius:999px;
+      border:1px solid rgba(var(--secondary-rgb),0.60);
+      background: rgba(var(--secondary-rgb),0.10);
+    }
+    #expA .dot.filled{
+      background: rgba(var(--secondary-rgb),0.95);
+      box-shadow: 0 0 0 4px rgba(var(--secondary-rgb),0.12);
+    }
+
+    #expA .trait-grid{
+      width: min(920px, 96vw);
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:10px;
+      padding:10px;
+      box-sizing:border-box;
+    }
+    @media (max-width: 900px){ #expA .trait-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
+    #expA .trait{
+      background: rgba(255,242,223,0.10);
+      border:1px solid rgba(var(--secondary-rgb),0.34);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      text-align:left;
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+      backdrop-filter: blur(10px);
+      position:relative;
+      overflow:hidden;
+      min-height: 106px;
+      color: rgba(255,242,223,0.92);
+    }
+    #expA .trait:hover{
+      border-color: rgba(var(--secondary-rgb),0.70);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+      transform: translateY(-1px);
+    }
+    #expA .trait-title{
+      font-family:'Playfair Display', serif;
+      font-size:1.02rem;
+      line-height:1.22;
+      color: var(--ivory);
+    }
+    #expA .trait-sub{
+      margin-top:6px;
+      font-size:0.62rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      opacity:0.78;
+      line-height:1.35;
+      color: rgba(255,242,223,0.75);
+    }
+
+    #expA .trait-meter{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    #expA .trait-meter-label{
+      font-size:0.52rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      opacity:0.75;
+      color: rgba(255,242,223,0.75);
+    }
+    #expA .token-slots{ display:inline-flex; gap:8px; align-items:center; }
+    #expA .slot{
+      width:14px; height:14px;
+      border-radius:999px;
+      border:1px solid rgba(var(--secondary-rgb),0.55);
+      background: rgba(var(--secondary-rgb),0.10);
+      position:relative;
+      overflow:hidden;
+    }
+    #expA .slot.on{
+      background: radial-gradient(circle at 30% 30%,
+        rgba(255,255,255,0.26),
+        rgba(var(--secondary-rgb),0.95) 55%,
+        rgba(var(--secondary-rgb),0.75) 100%);
+      box-shadow: 0 0 0 4px rgba(var(--secondary-rgb),0.12);
+    }
+
+    #expA .btn{
+      background: rgba(255,242,223,0.08);
+      border:1px solid rgba(var(--secondary-rgb),0.55);
+      padding:10px 18px;
+      font-family:'Lato', sans-serif;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      font-size:0.7rem;
+      cursor:pointer;
+      transition:0.3s;
+      backdrop-filter: blur(10px);
+      min-width: 150px;
+      border-radius: 10px;
+      color: rgba(255,242,223,0.90);
+    }
+    #expA .btn-save{
+      background: rgba(var(--secondary-rgb),0.95);
+      border-color: rgba(var(--secondary-rgb),0.95);
+      color: #2A0710;
+      font-weight: 700;
+    }
+    #expA .btn:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+
+    #expA .tiny-note{
+      font-size:0.62rem;
+      opacity:0.70;
+      letter-spacing:1px;
+      margin-top:10px;
+      line-height:1.35;
+      color: rgba(255,242,223,0.70);
+    }
+
+    /* A panel */
+    #expA .panel{
+      width: min(760px, 94vw);
+      margin: 0 auto;
+      border: 1px solid rgba(var(--secondary-rgb),0.38);
+      border-radius: 16px;
+      background: rgba(255,242,223,0.10);
+      backdrop-filter: blur(10px);
+      padding: 18px 16px;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+    }
+    #expA .recognition-line{
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3.4vw, 1.6rem);
+      line-height: 1.4;
+      font-style: italic;
+      color: var(--ivory);
+      margin: 10px 0 10px;
+    }
+    #expA .bar{
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,242,223,0.10);
+      overflow: hidden;
+      border: 1px solid rgba(255,242,223,0.10);
+      margin-top: 10px;
+    }
+    #expA .bar > div{
+      height: 100%;
+      width: 0%;
+      background: rgba(var(--secondary-rgb),0.92);
+      transition: width .2s linear;
+    }
+
+    #expA #a-result-screen{ display:none; opacity:0; transition: opacity .35s ease; }
+    #expA #a-capture-frame{
+      background: #130308;
+      padding: clamp(28px, 5vw, 56px) clamp(18px, 4vw, 38px);
+      width: 92vw;
+      max-width: 540px;
+      margin: 0 auto;
+      position: relative;
+      box-sizing: border-box;
+      border: 1px solid rgba(var(--secondary-rgb),0.28);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+      background-image:
+        radial-gradient(900px 520px at 12% 12%, rgba(var(--secondary-rgb),0.12), transparent 60%),
+        radial-gradient(800px 520px at 85% 30%, rgba(var(--primary2-rgb),0.12), transparent 62%),
+        url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      background-blend-mode: screen, screen, normal;
+    }
+    #expA #a-capture-frame::before{
+      content:"";
+      position:absolute;
+      inset: 15px;
+      border: 0.5px solid rgba(var(--secondary-rgb),0.55);
+      pointer-events:none;
+    }
+
+    #expA .pill-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top: 10px;
+    }
+    #expA .pill{
+      font-size:0.55rem;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      padding: 8px 10px;
+      border: 1px solid rgba(var(--secondary-rgb),0.45);
+      border-radius: 999px;
+      background: rgba(255,242,223,0.08);
+      color: rgba(255,242,223,0.88);
+      backdrop-filter: blur(8px);
+    }
+
+    /* =========================
+       EXPERIENCE B (Deck + Decor) — scoped with b- ids
+       ========================= */
+    #expB{
+      --bg: var(--cream);
+      --fg: var(--deep-green);
+      color: var(--deep-green);
+    }
+    #expB .container{
+      width:100%;
+      max-width:1200px;
+      margin: 0 auto;
+      text-align:center;
+      position: relative;
+      z-index: 10;
+    }
+
+    #expB .sub-theme{ color: rgba(26,42,29,0.78); }
+
+    #expB .deck-area{
+      position:relative;
+      height:clamp(250px,40vh,400px);
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      perspective:1000px;
+      margin-top: 10px;
+    }
+    #expB .card{
+      position:absolute;
+      width:clamp(120px,25vw,180px);
+      height:clamp(170px,35vh,260px);
+      background:#fff;
+      border-radius:4px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.1);
+      cursor:pointer;
+      transition:all 0.8s cubic-bezier(0.2,1,0.3,1);
+      overflow:hidden;
+    }
+    #expB .card::after{
+      content:'';
+      position:absolute;
+      inset:8px;
+      border:1px solid var(--gold);
+      background-color:var(--deep-green);
+      background-image:url("https://www.transparenttextures.com/patterns/dark-matter.png");
+    }
+    #expB .card-crest{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      color:var(--gold);
+      font-family:'Playfair Display',serif;
+      font-size:2rem;
+      z-index:2;
+      opacity:0.6;
+      pointer-events:none;
+    }
+
+    #expB .btn{
+      background:none;
+      border:1px solid var(--gold);
+      padding:10px 18px;
+      font-family:'Lato',sans-serif;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      font-size:0.7rem;
+      cursor:pointer;
+      transition:0.3s;
+      backdrop-filter:blur(4px);
+      flex:1 1 auto;
+      min-width:120px;
+      max-width:220px;
+      color: var(--deep-green);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.45);
+    }
+    #expB .btn-save{background:var(--gold); color:#fff; border-color: var(--gold);}
+    #expB .btn-save:hover{background:var(--deep-green); border-color:var(--deep-green);}
+    #expB .btn-group{
+      margin-top:22px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    #expB .btn-sound.active{
+      background:rgba(26,42,29,0.85);
+      color:#fff;
+      border-color:rgba(26,42,29,0.85);
+    }
+
+    /* B capture */
+    #expB #b-result-screen{ display:none; opacity:0; transition:opacity .6s ease;}
+    #expB #b-capture-frame{
+      background:#fff;
+      padding:clamp(26px,4.5vw,56px) clamp(18px,4vw,40px);
+      width:min(92vw, 420px);
+      margin:0 auto;
+      position:relative;
+      box-sizing:border-box;
+      border:1px solid rgba(197,160,89,0.2);
+      box-shadow:0 30px 60px rgba(0,0,0,0.05);
+      background-image:url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+    }
+    #expB #b-capture-frame::before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:0.5px solid var(--gold);
+      pointer-events:none;
+    }
+
+    #expB .card-canvas{
+      position:relative;
+      width:100%;
+      margin:16px auto 10px;
+      overflow:hidden;
+      background:rgba(255,255,255,0.6);
+      aspect-ratio: 4 / 5;
+      max-height: 52vh;
+      touch-action:none;
+    }
+    #expB .photo-frame{
+      position:absolute;
+      left:7.5%;
+      right:7.5%;
+      top:10%;
+      height:46%;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(197,160,89,0.25);
+      background:rgba(255,255,255,0.72);
+      box-shadow:0 10px 22px rgba(0,0,0,0.04);
+      display:none;
+    }
+    #expB .photo-frame img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    #expB .card-canvas[data-mode="hybrid"] .photo-frame{ display:block; }
+    #expB .card-canvas[data-mode="decor"] .photo-frame{ display:none !important; }
+
+    #expB .card-canvas[data-mode="decor"]{
+      background:
+        radial-gradient(700px 520px at 20% 15%, rgba(197,160,89,0.14), transparent 60%),
+        radial-gradient(680px 520px at 80% 28%, rgba(232,213,209,0.20), transparent 58%),
+        radial-gradient(760px 620px at 45% 90%, rgba(26,42,29,0.10), transparent 62%),
+        rgba(255,255,255,0.72);
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    #expB .card-canvas[data-mode="decor"]::before,
+    #expB .card-canvas[data-mode="decor"]::after{
+      content:none !important;
+    }
+
+    #expB .decor-layer{ position:absolute; inset:0; pointer-events:auto; z-index:3; }
+    #expB .sticker{
+      position:absolute;
+      left:50%; top:50%;
+      transform: translate(-50%,-50%) rotate(0deg) scale(1);
+      transform-origin: center;
+      user-select:none;
+      touch-action:none;
+      filter:drop-shadow(0 8px 10px rgba(0,0,0,0.08));
+      cursor:grab;
+      z-index:4;
+      will-change: transform, left, top;
+      font-family: "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji","Twemoji Mozilla",system-ui,sans-serif;
+    }
+    #expB .sticker:active{ cursor:grabbing; }
+
+    #expB .decorate-panel{
+      margin-top:14px;
+      display:grid;
+      gap:10px;
+      justify-items:center;
+    }
+    #expB .decorate-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      align-items:center;
+    }
+    #expB .pill{
+      border:1px solid rgba(197,160,89,0.55);
+      background:rgba(255,255,255,0.55);
+      backdrop-filter:blur(4px);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:0.7rem;
+      letter-spacing:1px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      max-width:92vw;
+    }
+    #expB .pill input[type="file"]{font-size:0.65rem; max-width:44vw;}
+    #expB .pill input[type="range"]{width:140px; max-width:40vw;}
+    #expB select{font:inherit;}
+
+    /* small helper text */
+    .note{
+      font-size:0.62rem;
+      opacity:0.7;
+      letter-spacing:1px;
+      line-height:1.4;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- BACKGROUND LAYERS -->
+  <div id="bgA" class="layer garden-bg"></div>
+  <div id="motesA" class="layer"></div>
+
+  <div id="bgB" class="layer garden-bg"></div>
+  <div id="petalsB" class="layer"></div>
+  <div id="birdsB" class="layer"></div>
+
+  <div class="vignette" id="vignette"></div>
+
+  <div id="app">
+    <!-- HOME -->
+    <section id="home" class="view active">
+      <div class="home-wrap">
+        <p class="isa-tag">ISA Chulalongkorn Presents</p>
+        <h1 class="main-title">Heart to Heart</h1>
+        <p class="sub-theme">Choose your ritual.</p>
+
+        <div class="home-grid">
+          <div class="home-card" id="goA">
+            <p class="home-title">Ritual of Recognition</p>
+            <p class="home-desc">
+              Spend 3 tokens on traits → recognition gate → receive an articulation + counsel slip.
+              (Red + Gold, floating hearts, piano ambience.)
+            </p>
+          </div>
+
+          <div class="home-card" id="goB">
+            <p class="home-title">The Secret Garden Deck</p>
+            <p class="home-desc">
+              Shuffle intentions → draw a secret → decorate a card with stickers (and optional photo).
+              (Garden palette, petals + birds.)
+            </p>
+          </div>
+        </div>
+
+        <p class="note">Tip: Sound begins on first tap/click.</p>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE A -->
+    <section id="expA" class="view">
+      <div class="topbar">
+        <button class="navbtn" id="a-home">← Home</button>
+      </div>
+
+      <div class="container">
+        <p class="isa-tag">ISA Chulalongkorn Presents</p>
+        <h1 class="main-title">Heart to Heart</h1>
+        <p class="sub-theme">You’re not bad at love.</p>
+        <p class="opening-line">Love is learned.</p>
+
+        <div class="ritual-bar" aria-label="Ritual progress">
+          <div class="steps">
+            <div class="step active" id="a-stepToken"><span class="step-dot"></span><span class="step-label">Tokens</span></div>
+            <div class="step" id="a-stepRecognize"><span class="step-dot"></span><span class="step-label">Recognition</span></div>
+            <div class="step" id="a-stepArticulate"><span class="step-dot"></span><span class="step-label">Articulation</span></div>
+            <div class="step" id="a-stepCounsel"><span class="step-dot"></span><span class="step-label">Counsel</span></div>
+          </div>
+        </div>
+
+        <!-- TOKEN SCREEN -->
+        <div id="a-token-screen">
+          <p style="margin: 6px 0 6px; font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; opacity:0.75; color: rgba(255,242,223,0.8);">
+            Spend 3 tokens on traits that feel like you
+          </p>
+          <p class="tiny-note" style="margin-top:6px;">Not a test. Not fate. Just recognition.</p>
+
+          <div class="token-top">
+            <div class="token-badge">
+              <span>Tokens left</span>
+              <span class="token-dots" id="a-tokenDots"></span>
+            </div>
+            <button class="btn" id="a-tokenClear" type="button">Clear</button>
+            <button class="btn btn-save" id="a-beginRecognition" type="button" disabled>Begin Recognition</button>
+            <button class="btn btn-sound active" id="a-soundBtn" type="button">Sound: On</button>
+          </div>
+
+          <div class="trait-grid" id="a-traitGrid"></div>
+          <p class="tiny-note" id="a-tokenStatus"></p>
+        </div>
+
+        <!-- RECOGNITION SCREEN -->
+        <div id="a-recognition-screen" style="display:none;">
+          <div class="panel">
+            <p style="margin: 0; font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; opacity:0.75; color: rgba(255,242,223,0.8);">Recognition</p>
+            <div class="recognition-line" id="a-recognitionLine">“Love is learned before it is chosen.”</div>
+            <div class="note" id="a-countdownText">Continue unlocks in 3s</div>
+            <div class="bar" aria-hidden="true"><div id="a-countBar"></div></div>
+
+            <div style="margin-top:14px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+              <button class="btn" id="a-backToTokens" type="button">Back</button>
+              <button class="btn btn-save" id="a-continueToSlip" type="button" disabled>Continue</button>
+            </div>
+            <p class="tiny-note">Take what resonates, leave what doesn’t.</p>
+          </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="a-result-screen">
+          <div id="a-capture-frame">
+            <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: rgba(var(--secondary-rgb),0.92); display:block; margin-bottom: 10px;">
+              ISA Chulalongkorn
+            </span>
+            <h2 style="font-family:'Pinyon Script',cursive; font-size:2.7rem; color: var(--antique-gold); margin:0 0 8px 0; line-height:1;">
+              Heart to Heart
+            </h2>
+
+            <div class="pill-row">
+              <span class="pill" id="a-pill-primary">House: —</span>
+              <span class="pill" id="a-pill-secondary">Secondary: —</span>
+              <span class="pill" id="a-pill-sig">Seal: —</span>
+            </div>
+
+            <div style="font-family:'Playfair Display',serif; font-size: clamp(1.15rem, 4vw, 1.55rem); line-height: 1.35; margin: 18px 0 12px; font-style: italic; color: var(--ivory);" id="a-frontLine"></div>
+
+            <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(255,242,223,0.10);">
+              <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--secondary-rgb),0.92); display:block; margin-bottom:6px;">Articulation</span>
+              <div style="font-family:'Playfair Display',serif; font-size: 1.05rem; line-height: 1.65; color: rgba(255,242,223,0.92);" id="a-articulationText"></div>
+            </div>
+
+            <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(255,242,223,0.10);">
+              <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--secondary-rgb),0.92); display:block; margin-bottom:6px;">House Analysis</span>
+              <div style="font-size: 0.88rem; opacity: 0.92; line-height: 1.6; color: rgba(255,242,223,0.85);" id="a-houseText"></div>
+            </div>
+
+            <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(255,242,223,0.10);">
+              <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--secondary-rgb),0.92); display:block; margin-bottom:6px;">Context</span>
+              <div style="font-size: 0.88rem; opacity: 0.92; line-height: 1.6; color: rgba(255,242,223,0.85);" id="a-contextText"></div>
+            </div>
+
+            <div style="text-align:left; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(255,242,223,0.10);">
+              <span style="font-size:0.52rem; letter-spacing:2px; text-transform:uppercase; color: rgba(var(--secondary-rgb),0.92); display:block; margin-bottom:6px;">Counsel meant for you</span>
+              <div style="margin-top: 8px; padding: 14px 14px; border-radius: 12px; border: 1px solid rgba(var(--secondary-rgb),0.45); background: rgba(var(--secondary-rgb),0.10); position: relative;">
+                <div style="font-family:'Playfair Display',serif; font-size: 1.02rem; line-height: 1.55; color: rgba(255,242,223,0.92);" id="a-counselText"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:22px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+            <button class="btn" id="a-resetBtn" type="button">Reset</button>
+            <button class="btn btn-save" id="a-saveBtn" type="button">Save Picture</button>
+            <button class="btn btn-sound active" id="a-soundBtn2" type="button">Sound: On</button>
+          </div>
+          <p class="tiny-note">Saved to your downloads folder</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE B -->
+    <section id="expB" class="view">
+      <div class="topbar">
+        <button class="navbtn" id="b-home">← Home</button>
+      </div>
+
+      <div class="container">
+        <div id="b-ritual-screen">
+          <p class="isa-tag">ISA Chulalongkorn Presents</p>
+          <h1 class="main-title" style="color: var(--gold); text-shadow:none;">Heart to Heart</h1>
+          <p class="sub-theme">The Secret Garden</p>
+
+          <div class="deck-area" id="b-deck-container"></div>
+          <p id="b-status-text" style="margin-top: 40px; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;">
+            Tap the deck to begin
+          </p>
+
+          <div class="btn-group" style="margin-top:18px;">
+            <button class="btn btn-sound active" id="b-soundBtn" type="button">Sound: On</button>
+          </div>
+          <p class="note">(Sound will begin on your first tap/click.)</p>
+        </div>
+
+        <div id="b-result-screen">
+          <div id="b-capture-frame">
+            <span style="font-size:0.55rem; letter-spacing:4px; text-transform:uppercase; color: var(--gold); display:block; margin-bottom:18px;">
+              ISA Chulalongkorn
+            </span>
+            <h2 style="font-family:'Pinyon Script',cursive; font-size:2.8rem; color: var(--deep-green); margin:0; line-height:1.02;">
+              Heart to Heart
+            </h2>
+
+            <div id="b-cardCanvas" class="card-canvas" data-mode="decor">
+              <div id="b-photoFrame" class="photo-frame">
+                <img id="b-userPhoto" alt="Your photo" />
+              </div>
+              <div id="b-decorLayer" class="decor-layer"></div>
+            </div>
+
+            <div style="font-family:'Playfair Display',serif; font-size:clamp(1.15rem, 4.2vw, 1.85rem); line-height:1.38; margin:22px 0 18px; font-style:italic;" id="b-quote-text"></div>
+            <div style="font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; opacity:0.6;" id="b-quote-source"></div>
+
+            <div style="display:flex; justify-content:space-between; gap:14px; margin-top:22px; padding-top:16px; border-top:0.5px solid rgba(0,0,0,0.1); text-align:left;">
+              <div>
+                <span style="font-size:0.5rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); display:block;">Cinematic</span>
+                <span style="font-family:'Playfair Display',serif; font-size:0.95rem;" id="b-movie-title"></span>
+              </div>
+              <div>
+                <span style="font-size:0.5rem; letter-spacing:2px; text-transform:uppercase; color:var(--gold); display:block;">Literary</span>
+                <span style="font-family:'Playfair Display',serif; font-size:0.95rem;" id="b-book-title"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="decorate-panel">
+            <div class="decorate-row">
+              <div class="pill">
+                Mode:
+                <select id="b-modeSelect">
+                  <option value="decor" selected>Mode B — Emojis Only</option>
+                  <option value="hybrid">Mode A — Photo + Emojis</option>
+                </select>
+              </div>
+
+              <div class="pill" id="b-photoInputWrap" style="display:none;">
+                Add Photo:
+                <input id="b-photoInput" type="file" accept="image/*" />
+              </div>
+
+              <div class="pill">
+                Symbol:
+                <select id="b-stickerSelect">
+                  <option value="🩷">🩷 Pink Heart</option>
+                  <option value="❤️">❤️ Red Heart</option>
+                  <option value="✨">✨ Sparkles</option>
+                  <option value="🎀">🎀 Ribbon</option>
+                  <option value="🌸">🌸 Blossom</option>
+                  <option value="🦋">🦋 Butterfly</option>
+                  <option value="💌">💌 Love Letter</option>
+                  <option value="♡">♡ Simple Heart</option>
+                  <option value="❦">❦ Ornament</option>
+                  <option value="୨୧">୨୧ Ribbon</option>
+                </select>
+              </div>
+
+              <div class="pill">
+                Size:
+                <input id="b-stickerSize" type="range" min="16" max="96" value="34" />
+              </div>
+            </div>
+
+            <div class="decorate-row">
+              <button class="btn" id="b-placeStickerBtn" type="button">Place Sticker</button>
+              <button class="btn" id="b-clearStickersBtn" type="button">Clear</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn" id="b-resetBtn" type="button">Reset</button>
+            <button class="btn btn-save" id="b-saveBtn" type="button">Save Picture</button>
+            <button class="btn btn-sound active" id="b-soundBtn2" type="button">Sound: On</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* =========================
+       ROUTER + LAYERS
+       ========================= */
+    const views = ["home","expA","expB"];
+    const el = (id)=>document.getElementById(id);
+
+    /* =========================
+       SHARED RITUAL STATE (A -> B)
+       ========================= */
+    const Ritual = {
+    primaryKey: null,
+    secondaryKey: null,
+    seal: null,
+    counsel: null,
+    pattern: null,
+    slip: null,
+    // if you want: keep tokens selection too
+    traitTokens: null
+ };
+
+    function setThemeFor(view){
+      // base body background is controlled by layers; we also set text color for safety
+      if(view === "expA"){
+        document.documentElement.style.setProperty("--bg", getComputedStyle(document.documentElement).getPropertyValue("--wine"));
+        document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--ivory"));
+        el("bgA").classList.add("on");
+        el("motesA").classList.add("on");
+        el("bgB").classList.remove("on");
+        el("petalsB").classList.remove("on");
+        el("birdsB").classList.remove("on");
+        el("vignette").classList.add("on");
+      } else if(view === "expB"){
+        document.documentElement.style.setProperty("--bg", getComputedStyle(document.documentElement).getPropertyValue("--cream"));
+        document.documentElement.style.setProperty("--fg", getComputedStyle(document.documentElement).getPropertyValue("--deep-green"));
+        el("bgA").classList.remove("on");
+        el("motesA").classList.remove("on");
+        el("bgB").classList.add("on");
+        el("petalsB").classList.add("on");
+        el("birdsB").classList.add("on");
+        el("vignette").classList.add("on");
+      } else {
+        // home
+        document.documentElement.style.setProperty("--bg", "#0C0A0C");
+        document.documentElement.style.setProperty("--fg", "#F8F5F0");
+        el("bgA").classList.remove("on");
+        el("motesA").classList.remove("on");
+        el("bgB").classList.remove("on");
+        el("petalsB").classList.remove("on");
+        el("birdsB").classList.remove("on");
+        el("vignette").classList.remove("on");
+      }
+      // apply immediate background color
+      document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue("--bg");
+      document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue("--fg");
+      el("app").scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    function showView(id){
+      views.forEach(v=>{
+        const sec = el(v);
+        if(!sec) return;
+        sec.classList.toggle("active", v === id);
+      });
+      setThemeFor(id);
+    }
+
+    el("goA").addEventListener("click", ()=> showView("expA"));
+    el("goB").addEventListener("click", ()=> showView("expB"));
+    el("a-home").addEventListener("click", ()=> showView("home"));
+    el("b-home").addEventListener("click", ()=> showView("home"));
+
+    /* =========================
+       EXPERIENCE A — HEART FLOATERS
+       ========================= */
+    const motesHostA = el("motesA");
+
+    function heartSVG_A({ glow=0.25 } = {}) {
+      return `
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="hgrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="rgba(212,175,55,0.95)"/>
+              <stop offset="0.35" stop-color="rgba(178,30,53,0.92)"/>
+              <stop offset="1" stop-color="rgba(123,30,43,0.92)"/>
+            </linearGradient>
+            <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2.6" result="b"/>
+              <feColorMatrix in="b" type="matrix"
+                values="1 0 0 0 0
+                        0 1 0 0 0
+                        0 0 1 0 0
+                        0 0 0 ${glow} 0" result="g"/>
+              <feMerge>
+                <feMergeNode in="g"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path filter="url(#softGlow)"
+            d="M32 54s-18.7-10.9-25.2-22.5C1.6 20.7 7.8 10 18.9 10c5.2 0 9.6 2.6 13.1 7
+               3.5-4.4 7.9-7 13.1-7C56.2 10 62.4 20.7 57.2 31.5 50.7 43.1 32 54 32 54z"
+            fill="url(#hgrad)" />
+        </svg>
+      `;
+    }
+
+    function spawnHeartsA(count = 20){
+      motesHostA.innerHTML = "";
+      for(let i=0;i<count;i++){
+        const wrap = document.createElement("div");
+        wrap.className = "heart-mote";
+
+        const x = Math.random() * 100;
+        const x2 = Math.max(0, Math.min(100, x + (Math.random()*22 - 11)));
+        const dur = 10 + Math.random() * 16;
+        const delay = Math.random() * 10;
+        const s = (0.45 + Math.random() * 1.35).toFixed(2);
+        const r = (-18 + Math.random()*36).toFixed(1) + "deg";
+
+        wrap.style.setProperty("--x", x + "vw");
+        wrap.style.setProperty("--x2", x2 + "vw");
+        wrap.style.setProperty("--s", s);
+        wrap.style.setProperty("--r", r);
+        wrap.style.animationDuration = dur + "s";
+        wrap.style.animationDelay = delay + "s";
+
+        const size = 16 + Math.random()*26;
+        wrap.style.width = size + "px";
+        wrap.style.height = size + "px";
+
+        wrap.innerHTML = heartSVG_A({ glow: 0.28 });
+
+        // unique ids per svg
+        const svg = wrap.querySelector("svg");
+        const uid = "h" + Math.random().toString(16).slice(2);
+        svg.innerHTML = svg.innerHTML
+          .replaceAll("hgrad", uid + "g")
+          .replaceAll("softGlow", uid + "f");
+
+        motesHostA.appendChild(wrap);
+      }
+    }
+    spawnHeartsA(20);
+    window.addEventListener("resize", ()=> spawnHeartsA(window.innerWidth < 480 ? 14 : 20));
+
+    /* =========================
+       SHARED AUDIO ENGINE (so both experiences can use same toggles)
+       ========================= */
+    let audioCtx = null;
+    let masterGain = null;
+    let soundOn = true;
+    let audioPrimed = false;
+
+    // A ambience (piano)
+    let pianoLoopTimer = null;
+    let pianoIsRunning = false;
+
+    function ensureAudio() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0.0001;
+      masterGain.connect(audioCtx.destination);
+    }
+
+    async function primeAndApplyAudio() {
+      ensureAudio();
+      if (audioCtx.state === "suspended") {
+        try { await audioCtx.resume(); } catch (e) {}
+      }
+      audioPrimed = true;
+
+      const now = audioCtx.currentTime;
+      masterGain.gain.cancelScheduledValues(now);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+      masterGain.gain.exponentialRampToValueAtTime(soundOn ? 0.65 : 0.0001, now + 0.12);
+
+      updateAllSoundButtons();
+      if (soundOn) startPianoAmbience();
+    }
+
+    function setSound(on) {
+      soundOn = on;
+      if (!audioPrimed || !audioCtx || !masterGain) { updateAllSoundButtons(); return; }
+
+      const now = audioCtx.currentTime;
+      masterGain.gain.cancelScheduledValues(now);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, now);
+      masterGain.gain.exponentialRampToValueAtTime(on ? 0.65 : 0.0001, now + 0.12);
+
+      updateAllSoundButtons();
+      if (on) startPianoAmbience();
+      else { stopPianoAmbience(); }
+    }
+    function toggleSound(){ setSound(!soundOn); }
+
+    function updateAllSoundButtons(){
+      const label = soundOn ? "Sound: On" : "Sound: Off";
+      const ids = ["a-soundBtn","a-soundBtn2","b-soundBtn","b-soundBtn2"];
+      ids.forEach(id=>{
+        const b = el(id);
+        if(!b) return;
+        b.textContent = label;
+        b.classList.toggle("active", soundOn);
+      });
+    }
+
+    (function bindAutoStart() {
+      const once = async () => {
+        await primeAndApplyAudio();
+        window.removeEventListener("pointerdown", once);
+        window.removeEventListener("keydown", once);
+      };
+      window.addEventListener("pointerdown", once);
+      window.addEventListener("keydown", once);
+    })();
+
+    // bind sound buttons
+    ["a-soundBtn","a-soundBtn2","b-soundBtn","b-soundBtn2"].forEach(id=>{
+      const btn = el(id);
+      btn?.addEventListener("click", (e)=>{ e.stopPropagation(); toggleSound(); });
+    });
+
+    /* Piano (A) */
+    function playPianoNote(freq, { when=0, dur=1.8, vel=0.6, pan=0 } = {}) {
+      if (!audioCtx || !audioPrimed || !soundOn) return;
+      const t0 = audioCtx.currentTime + when;
+
+      const osc = audioCtx.createOscillator();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, t0);
+
+      const click = audioCtx.createOscillator();
+      click.type = "sine";
+      click.frequency.setValueAtTime(freq * 2.0, t0);
+
+      const g = audioCtx.createGain();
+      const peak = 0.08 * vel;
+
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(peak, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(peak * 0.35, t0 + 0.18);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(1800 + vel * 1200, t0);
+      filter.Q.setValueAtTime(0.8, t0);
+
+      const delay = audioCtx.createDelay();
+      delay.delayTime.setValueAtTime(0.14, t0);
+
+      const fb = audioCtx.createGain();
+      fb.gain.setValueAtTime(0.22, t0);
+
+      const wet = audioCtx.createGain();
+      wet.gain.setValueAtTime(0.35, t0);
+
+      const dry = audioCtx.createGain();
+      dry.gain.setValueAtTime(0.9, t0);
+
+      const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
+      if (panner) panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), t0);
+
+      osc.connect(filter);
+      click.connect(filter);
+
+      filter.connect(dry); dry.connect(g);
+      filter.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(g);
+
+      if (panner) { g.connect(panner); panner.connect(masterGain); }
+      else { g.connect(masterGain); }
+
+      osc.start(t0); click.start(t0);
+      osc.stop(t0 + dur + 0.05);
+      click.stop(t0 + 0.03);
+    }
+
+    const CHORDS = [
+      [293.66, 369.99, 440.00],
+      [392.00, 493.88, 587.33],
+      [246.94, 293.66, 369.99],
+      [220.00, 293.66, 329.63],
+    ];
+
+    function startPianoAmbience() {
+      if (pianoIsRunning) return;
+      pianoIsRunning = true;
+
+      let step = 0;
+      const tick = () => {
+        if (!soundOn || !audioPrimed || !audioCtx) return;
+        const chord = CHORDS[step % CHORDS.length];
+        const basePan = -0.25 + Math.random() * 0.5;
+        const vel = 0.45 + Math.random() * 0.25;
+
+        playPianoNote(chord[0] / 2, { when: 0.00, dur: 2.2, vel: vel * 0.65, pan: basePan * 0.6 });
+        playPianoNote(chord[0],     { when: 0.05, dur: 1.8, vel: vel,        pan: basePan });
+        playPianoNote(chord[1],     { when: 0.32, dur: 1.6, vel: vel * 0.90, pan: basePan * 0.8 });
+        playPianoNote(chord[2],     { when: 0.62, dur: 1.4, vel: vel * 0.85, pan: basePan * 0.6 });
+
+        step++;
+        pianoLoopTimer = setTimeout(tick, 2400);
+      };
+      tick();
+    }
+    function stopPianoAmbience() {
+      pianoIsRunning = false;
+      if (pianoLoopTimer) { clearTimeout(pianoLoopTimer); pianoLoopTimer = null; }
+    }
+
+    function softChime(type = "place") {
+      if (!audioCtx || !audioPrimed || !soundOn) return;
+      const map = { place:[659.25,880.0], gate:[523.25,659.25], reveal:[392.0,523.25] };
+      const seq = map[type] || map.place;
+      playPianoNote(seq[0], { when: 0.00, dur: 0.55, vel: 0.35, pan: -0.05 });
+      playPianoNote(seq[1], { when: 0.08, dur: 0.60, vel: 0.30, pan:  0.08 });
+    }
+
+    /* =========================
+       EXPERIENCE B — PETALS + BIRDS
+       ========================= */
+    const petalsHostB = el("petalsB");
+    function spawnPetalsB(count = 18) {
+      petalsHostB.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal';
+        const left = Math.random() * 100;
+        const dur = 10 + Math.random() * 12;
+        const delay = Math.random() * 8;
+        const size = 8 + Math.random() * 10;
+        p.style.left = left + 'vw';
+        p.style.animationDuration = dur + 's';
+        p.style.animationDelay = delay + 's';
+        p.style.width = size + 'px';
+        p.style.height = (size * 1.5) + 'px';
+        p.style.opacity = (0.45 + Math.random() * 0.45).toFixed(2);
+        petalsHostB.appendChild(p);
+      }
+    }
+    spawnPetalsB(18);
+    window.addEventListener('resize', () => spawnPetalsB(window.innerWidth < 480 ? 12 : 18));
+
+    // Bird sound (chirp)
+    function pleasantChirp({ pan = 0, volume = 1 } = {}) {
+      if (!audioCtx || !audioPrimed || !soundOn) return;
+
+      const now = audioCtx.currentTime;
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
+
+      osc1.type = "sine";
+      osc2.type = "triangle";
+      filter.type = "bandpass";
+      filter.frequency.value = 2600;
+      filter.Q.value = 9;
+
+      const base = 1350 + Math.random() * 950;
+      const sweepUp = 1.30 + Math.random() * 0.30;
+      const duration = 0.18 + Math.random() * 0.08;
+
+      osc1.frequency.setValueAtTime(base, now);
+      osc1.frequency.exponentialRampToValueAtTime(base * sweepUp, now + duration * 0.65);
+      osc2.frequency.setValueAtTime(base * 0.985, now);
+      osc2.frequency.exponentialRampToValueAtTime(base * sweepUp * 1.02, now + duration * 0.65);
+
+      const lfo = audioCtx.createOscillator();
+      const lfoGain = audioCtx.createGain();
+      lfo.type = "sine";
+      lfo.frequency.value = 10 + Math.random() * 3;
+      lfoGain.gain.value = 14 + Math.random() * 9;
+      lfo.connect(lfoGain);
+      lfoGain.connect(osc1.frequency);
+      lfoGain.connect(osc2.frequency);
+
+      const peak = 0.045 * volume;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(peak, now + 0.028);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+
+      if (panner) {
+        panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), now);
+        filter.connect(panner);
+        panner.connect(gain);
+      } else {
+        filter.connect(gain);
+      }
+      gain.connect(masterGain);
+
+      lfo.start(now);
+      osc1.start(now);
+      osc2.start(now);
+
+      const stopAt = now + duration + 0.02;
+      lfo.stop(stopAt);
+      osc1.stop(stopAt);
+      osc2.stop(stopAt);
+    }
+
+    const birdsHostB = el("birdsB");
+    function spawnBirdB() {
+      const bird = document.createElement('div');
+      bird.className = 'bird';
+
+      const mode = Math.random() > 0.5 ? "up" : "down";
+      const fromX = "-25vw";
+      const toX   = "120vw";
+
+      const fromY = mode === "up" ? (65 + Math.random() * 25) + "vh" : (10 + Math.random() * 25) + "vh";
+      const toY   = mode === "up" ? (8 + Math.random() * 25) + "vh"  : (55 + Math.random() * 30) + "vh";
+
+      const dur = 9 + Math.random() * 10;
+      const delay = Math.random() * 2.5;
+      const scale = (0.75 + Math.random() * 0.7).toFixed(2);
+      const opacity = (0.28 + Math.random() * 0.35).toFixed(2);
+
+      bird.style.setProperty('--fromX', fromX);
+      bird.style.setProperty('--toX', toX);
+      bird.style.setProperty('--fromY', fromY);
+      bird.style.setProperty('--toY', toY);
+      bird.style.setProperty('--s', scale);
+      bird.style.animationDuration = dur + "s";
+      bird.style.animationDelay = delay + "s";
+      bird.style.opacity = opacity;
+
+      bird.innerHTML = `
+        <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke-linecap="round" stroke="rgba(26,42,29,0.62)">
+            <path d="M58 36 Q60 34 62 36" stroke-width="3"/>
+            <path class="wing left"  d="M60 36 Q40 18 18 26" stroke-width="3.2"/>
+            <path class="wing right" d="M60 36 Q80 18 102 26" stroke-width="3.2"/>
+          </g>
+          <g fill="none" stroke-linecap="round" stroke="rgba(197,160,89,0.28)">
+            <path class="wing left"  d="M60 36 Q43 22 22 28" stroke-width="2.1"/>
+            <path class="wing right" d="M60 36 Q77 22 98 28" stroke-width="2.1"/>
+          </g>
+        </svg>
+      `;
+      birdsHostB.appendChild(bird);
+
+      const entryPan = -0.55 + Math.random() * 0.25;
+      const midPan   = -0.10 + Math.random() * 0.20;
+      const baseVol = 0.85 + Math.random() * 0.25;
+
+      setTimeout(() => {
+        pleasantChirp({ pan: entryPan, volume: baseVol });
+        if (Math.random() > 0.55) setTimeout(() => pleasantChirp({ pan: midPan, volume: baseVol * 0.92 }), (dur * 0.45) * 1000);
+        if (Math.random() > 0.7)  setTimeout(() => pleasantChirp({ pan: entryPan, volume: baseVol * 0.72 }), 220 + Math.random() * 180);
+      }, delay * 1000);
+
+      setTimeout(() => bird.remove(), (dur + delay + 1) * 1000);
+    }
+    setInterval(() => { if (Math.random() > 0.35) spawnBirdB(); }, 2200);
+
+    /* =========================
+       EXPERIENCE A LOGIC (your tokens ritual)
+       ========================= */
+    const teachers = {
+      family: { label:"House of Kin",
+        analysis:"This House learns love through responsibility, harmony, and belonging. It values steadiness, care, and the quiet work of staying.",
+        slips:[
+          { pattern:"You protect closeness by staying.",
+            articulation:"When love is learned as responsibility, devotion can become endurance, staying becomes the proof.",
+            context:"In many family-centered settings, emotions are managed to keep peace. Needs often become indirect requests.",
+            counsel:"Name one need plainly, kindly, and early. Clarity is not disrespect."
+          },
+          { pattern:"You keep peace by shrinking needs.",
+            articulation:"When harmony is the rule, wanting more can feel like a threat, so you become easy to live with, not fully known.",
+            context:"High-context communication rewards restraint. Over time, silence can turn into quiet resentment.",
+            counsel:"Let your needs exist in daylight. Start small: one concrete request."
+          },
+          { pattern:"You manage love like a room’s temperature.",
+            articulation:"If moods mattered growing up, you may track tension instinctively, peace becomes the metric of safety.",
+            context:"Families teach invisible emotional rules: who can speak, when, and how.",
+            counsel:"Practice gentle honesty: one true sentence before you disappear."
+          }
+        ]
+      },
+      media: { label:"House of Theatre",
+        analysis:"This House learns love through stories and intensity. It seeks meaning in spark, narrative, and emotional momentum.",
+        slips:[
+          { pattern:"You read intensity as truth.",
+            articulation:"When romance is learned through stories, adrenaline can look like destiny, fast feelings feel final.",
+            context:"Narratives compress time and reward high emotion. Real intimacy grows through repetition and reliability.",
+            counsel:"Slow is not a lack of love. Let consistency be attractive."
+          },
+          { pattern:"Calm feels suspicious.",
+            articulation:"If love is taught as a storyline, quiet can feel like emptiness, so peace looks like ‘nothing is happening.’",
+            context:"Modern romance often frames conflict as passion. Stable attachment often feels ordinary and safe.",
+            counsel:"Don’t chase adrenaline to prove love. Ask: do I feel safe here?"
+          },
+          { pattern:"You confuse chemistry with compatibility.",
+            articulation:"Stories romanticize turbulence. But intensity can be chemistry without kindness, repair, or alignment.",
+            context:"Some cultures also glorify suffering as proof. In practice, peace is a love language too.",
+            counsel:"Choose peace on purpose. Love should not require crisis to feel real."
+          }
+        ]
+      },
+      religion: { label:"House of Meaning",
+        analysis:"This House learns love through values, devotion, and moral care. It treats love as practice, something you do, not only feel.",
+        slips:[
+          { pattern:"You take love seriously beautifully.",
+            articulation:"When love is shaped by values, commitment can be an ethic, care becomes a daily practice.",
+            context:"Community ethics can strengthen loyalty. Sometimes the pressure to be ‘good’ makes normal conflict feel like failure.",
+            counsel:"Devotion should include tenderness toward yourself. Imperfection doesn’t cancel worth."
+          },
+          { pattern:"You fear disappointing people.",
+            articulation:"When love is linked to goodness, boundaries can feel like selfishness, so you over-carry expectations.",
+            context:"Belonging is powerful. Shame-based belonging can silently shape how you ask for care.",
+            counsel:"Let values guide you, not shame. You can be kind and still be clear."
+          },
+          { pattern:"You hold desire and duty at once.",
+            articulation:"When love has communal meaning, you may feel torn between personal longing and responsibility.",
+            context:"Navigating love across expectations is a cultural task, not personal weakness.",
+            counsel:"Choose in alignment with your values, without using fear as your compass."
+          }
+        ]
+      },
+      school: { label:"House of Measure",
+        analysis:"This House learns love through performance, comparison, and belonging. It seeks certainty, progress, and signs of being chosen.",
+        slips:[
+          { pattern:"You grade love like an exam.",
+            articulation:"When safety comes from ‘getting it right,’ you may analyze love for certainty, signals become evidence.",
+            context:"High-pressure environments train comparison. Uncertainty becomes emotionally expensive.",
+            counsel:"Ask directly once. One honest question can save 100 spirals."
+          },
+          { pattern:"You feel behind.",
+            articulation:"When life is measured in milestones, love becomes another timeline, labels can overshadow connection.",
+            context:"Peer environments shape self-worth. ‘Keeping up’ becomes a hidden rule even in intimacy.",
+            counsel:"Stop grading love. Focus on growth, not speed."
+          },
+          { pattern:"You perform to be chosen.",
+            articulation:"If belonging was conditional, you may earn love through competence, being impressive becomes protection.",
+            context:"Social hierarchies teach people to trade authenticity for acceptance.",
+            counsel:"Practice receiving without proving. Let care land."
+          }
+        ]
+      },
+      internet: { label:"House of Distance",
+        analysis:"This House learns love through attention, trends, and detachment. It values control, optionality, and protecting dignity.",
+        slips:[
+          { pattern:"You leave first to stay safe.",
+            articulation:"When love is mediated by endless options, distance can feel like dignity, exiting becomes protection.",
+            context:"Attention economies normalize quick exits and fear of looking ‘too much.’",
+            counsel:"Leave loudly, one clear sentence is kinder than disappearing."
+          },
+          { pattern:"You speak in hints.",
+            articulation:"When love is learned through signals, timing, likes, silence, needs can become indirect tests.",
+            context:"High-context signaling works online, but misfires across personalities and cultures.",
+            counsel:"Say one thing plainly. Directness is not desperation."
+          },
+          { pattern:"Your feelings feel ‘not enough.’",
+            articulation:"When life is curated, normal emotion can feel small, so you doubt your quiet love.",
+            context:"Online comparison rewards extremes. Real intimacy often looks ordinary and steady.",
+            counsel:"Trust your quiet feelings. You don’t need to be loud to be real."
+          }
+        ]
+      }
+    };
+
+    const recognitionLines = [
+      "“Love is learned before it is chosen.”",
+      "“Most patterns began as protection.”",
+      "“What kept you safe once still guides you.”",
+      "“This is not fate. It is recognition.”",
+      "“You are not bad at love. You are trained by it.”"
+    ];
+
+    const TRAITS = [
+      { id:"fast",  title:"I fall too fast.", sub:"speed • spark • rush", w:{ media:2, internet:1 } },
+      { id:"numb",  title:"I don’t feel enough.", sub:"muted • small • numb", w:{ internet:2, media:1 } },
+      { id:"leave", title:"I leave first.", sub:"exit • control • safety", w:{ internet:2, family:1 } },
+      { id:"guilt", title:"I feel guilty wanting more.", sub:"need • guilt • harmony", w:{ family:2, religion:1 } },
+      { id:"peace", title:"I prioritize peace over truth.", sub:"quiet • restraint • harmony", w:{ family:2, school:1 } },
+      { id:"think", title:"I overthink signals.", sub:"analysis • certainty • fear", w:{ school:2, media:1 } },
+      { id:"prove", title:"I perform to be chosen.", sub:"earn • impress • belong", w:{ school:2, family:1 } },
+      { id:"duty",  title:"I take love seriously.", sub:"meaning • devotion • care", w:{ religion:2, family:1 } }
+    ];
+
+    // A refs
+    const aTokenScreen = el("a-token-screen");
+    const aRecognitionScreen = el("a-recognition-screen");
+    const aTraitGrid = el("a-traitGrid");
+
+    const aTokenDots = el("a-tokenDots");
+    const aTokenStatus = el("a-tokenStatus");
+    const aTokenClearBtn = el("a-tokenClear");
+    const aBeginRecognitionBtn = el("a-beginRecognition");
+
+    const aBackToTokensBtn = el("a-backToTokens");
+    const aContinueToSlipBtn = el("a-continueToSlip");
+
+    const aRecognitionLineEl = el("a-recognitionLine");
+    const aCountdownTextEl = el("a-countdownText");
+    const aCountBarEl = el("a-countBar");
+
+    const aStepToken = el("a-stepToken");
+    const aStepRecognize = el("a-stepRecognize");
+    const aStepArticulate = el("a-stepArticulate");
+    const aStepCounsel = el("a-stepCounsel");
+
+    let tokensTotal = 3;
+    let tokensLeft = 3;
+
+    let traitTokens = Object.fromEntries(TRAITS.map(t => [t.id, 0]));
+    let scores = { family:0, media:0, religion:0, school:0, internet:0 };
+    let primaryKey = null;
+    let secondaryKey = null;
+
+    let recognitionTimer = null;
+
+    function setStepA(active){
+      [aStepToken, aStepRecognize, aStepArticulate, aStepCounsel].forEach(s=>s.classList.remove("active"));
+      if(active === "token") aStepToken.classList.add("active");
+      if(active === "recognition") aStepRecognize.classList.add("active");
+      if(active === "articulation") aStepArticulate.classList.add("active");
+      if(active === "counsel") aStepCounsel.classList.add("active");
+    }
+
+    function renderTokenDotsA(){
+      aTokenDots.innerHTML = "";
+      for(let i=0;i<tokensTotal;i++){
+        const d = document.createElement("span");
+        d.className = "dot" + (i < tokensLeft ? " filled" : "");
+        aTokenDots.appendChild(d);
+      }
+    }
+
+    function recomputeScoresA(){
+      scores = { family:0, media:0, religion:0, school:0, internet:0 };
+      for(const tr of TRAITS){
+        const c = traitTokens[tr.id] || 0;
+        if(c <= 0) continue;
+        for(const k of Object.keys(tr.w)){
+          scores[k] += c * tr.w[k];
+        }
+      }
+
+      const order = ["family","media","religion","school","internet"];
+      const arr = order.map(k => ({k, n: scores[k]}))
+        .sort((a,b)=> b.n - a.n || order.indexOf(a.k) - order.indexOf(b.k));
+
+      primaryKey = arr[0].n > 0 ? arr[0].k : null;
+      secondaryKey = arr[1].n > 0 ? arr[1].k : null;
+
+      aBeginRecognitionBtn.disabled = (tokensLeft !== 0);
+    }
+
+    function deterministicSlipIndexA(forTeacherKey){
+      const w = { fast:3, numb:5, leave:7, guilt:11, peace:13, think:17, prove:19, duty:23 };
+      let h = 0;
+      for(const tr of TRAITS){
+        h += (traitTokens[tr.id] || 0) * w[tr.id];
+      }
+      return h % teachers[forTeacherKey].slips.length;
+    }
+
+    function computeSealA(){
+      const w = { fast:31, numb:37, leave:41, guilt:43, peace:47, think:53, prove:59, duty:61 };
+      let n = 0;
+      for(const tr of TRAITS){
+        n += (traitTokens[tr.id] || 0) * w[tr.id];
+      }
+      const seal = (n + 2026).toString(36).toUpperCase();
+      return "ISA-H2H-" + seal.padStart(4,"0");
+    }
+
+    function renderTraitsA(){
+      aTraitGrid.innerHTML = "";
+      recomputeScoresA();
+
+      TRAITS.forEach(tr=>{
+        const count = traitTokens[tr.id] || 0;
+        const tile = document.createElement("div");
+        tile.className = "trait";
+        tile.tabIndex = 0;
+
+        const slots = Array.from({length:3}).map((_,i)=>
+          `<span class="slot ${i < count ? "on":""}"></span>`
+        ).join("");
+
+        tile.innerHTML = `
+          <div class="trait-title">${tr.title}</div>
+          <div class="trait-sub">${tr.sub}</div>
+          <div class="trait-meter">
+            <div class="trait-meter-label">Placed</div>
+            <div class="token-slots" aria-label="Tokens placed">${slots}</div>
+          </div>
+        `;
+
+        const addToken = ()=>{
+          if(tokensLeft <= 0){
+            aTokenStatus.textContent = "No tokens left. Begin recognition.";
+            return;
+          }
+          if(traitTokens[tr.id] >= 3) return;
+          traitTokens[tr.id] += 1;
+          tokensLeft -= 1;
+
+          renderTokenDotsA();
+          renderTraitsA();
+          softChime("place");
+
+          aTokenStatus.textContent = (tokensLeft > 0)
+            ? `Token placed. ${tokensLeft} left.`
+            : `Allocation complete. Proceed to recognition.`;
+        };
+
+        tile.addEventListener("click", addToken);
+        tile.addEventListener("keydown", (e)=>{
+          if(e.key === "Enter" || e.key === " "){ e.preventDefault(); addToken(); }
+        });
+
+        aTraitGrid.appendChild(tile);
+      });
+
+      aTokenStatus.textContent = (tokensLeft > 0)
+        ? "Spend all 3 tokens to continue."
+        : "Allocation complete. Proceed to recognition.";
+    }
+
+    function clearTraitsA(){
+      traitTokens = Object.fromEntries(TRAITS.map(t => [t.id, 0]));
+      tokensLeft = tokensTotal;
+      primaryKey = null;
+      secondaryKey = null;
+      aTokenStatus.textContent = "Cleared.";
+      renderTokenDotsA();
+      renderTraitsA();
+      aBeginRecognitionBtn.disabled = true;
+
+      setStepA("token");
+      softChime("gate");
+
+      // restore A screens
+      el("a-result-screen").style.display = "none";
+      el("a-result-screen").style.opacity = "0";
+      aRecognitionScreen.style.display = "none";
+      aTokenScreen.style.display = "block";
+    }
+    aTokenClearBtn.addEventListener("click", clearTraitsA);
+
+    function startRecognitionA(){
+      if(tokensLeft !== 0){
+        aTokenStatus.textContent = "Please spend all tokens first.";
+        return;
+      }
+      recomputeScoresA();
+      if(!primaryKey){
+        aTokenStatus.textContent = "Please select at least one trait.";
+        return;
+      }
+
+      setStepA("recognition");
+      aTokenScreen.style.display = "none";
+      aRecognitionScreen.style.display = "block";
+
+      const idx = deterministicSlipIndexA(primaryKey) % recognitionLines.length;
+      aRecognitionLineEl.textContent = recognitionLines[idx];
+
+      softChime("gate");
+
+      aContinueToSlipBtn.disabled = true;
+      aCountdownTextEl.textContent = "Continue unlocks in 3s";
+      aCountBarEl.style.width = "0%";
+
+      const start = performance.now();
+      const duration = 3000;
+      if(recognitionTimer) cancelAnimationFrame(recognitionTimer);
+
+      const tick = (now)=>{
+        const elapsed = now - start;
+        const p = Math.min(1, elapsed / duration);
+        aCountBarEl.style.width = (p * 100).toFixed(0) + "%";
+
+        const remaining = Math.max(0, (duration - elapsed) / 1000);
+        if(remaining > 0.01){
+          aCountdownTextEl.textContent = `Continue unlocks in ${Math.ceil(remaining)}s`;
+          recognitionTimer = requestAnimationFrame(tick);
+        } else {
+          aCountdownTextEl.textContent = "Ready.";
+          aContinueToSlipBtn.disabled = false;
+          aCountBarEl.style.width = "100%";
+        }
+      };
+      recognitionTimer = requestAnimationFrame(tick);
+    }
+    aBeginRecognitionBtn.addEventListener("click", startRecognitionA);
+
+    aBackToTokensBtn.addEventListener("click", ()=>{
+      if(recognitionTimer) cancelAnimationFrame(recognitionTimer);
+      aRecognitionScreen.style.display = "none";
+      aTokenScreen.style.display = "block";
+      setStepA("token");
+      softChime("place");
+    });
+
+    function showSlipA(){
+      recomputeScoresA();
+      if(!primaryKey) return;
+
+      const i = deterministicSlipIndexA(primaryKey);
+      const slip = teachers[primaryKey].slips[i];
+      // ---- A -> B handoff ----
+      Ritual.primaryKey = primaryKey;
+      Ritual.secondaryKey = secondaryKey;
+      Ritual.seal = computeSealA();
+      Ritual.counsel = slip.counsel;
+      Ritual.pattern = slip.pattern;
+      Ritual.slip = slip;
+      Ritual.traitTokens = { ...traitTokens };
+
+      setStepA("articulation");
+
+      aRecognitionScreen.style.display = "none";
+      aTokenScreen.style.display = "none";
+
+      const result = el("a-result-screen");
+      result.style.display = "block";
+      requestAnimationFrame(()=> result.style.opacity = "1");
+
+      el("a-pill-primary").textContent = `House: ${teachers[primaryKey].label}`;
+      el("a-pill-secondary").textContent = `Secondary: ${secondaryKey ? teachers[secondaryKey].label : "—"}`;
+      el("a-pill-sig").textContent = `Seal: ${Ritual.seal}`;
+
+      el("a-frontLine").textContent = slip.pattern;
+      el("a-articulationText").textContent = slip.articulation;
+      el("a-houseText").textContent =
+        teachers[primaryKey].analysis +
+        (secondaryKey ? ` A secondary influence from ${teachers[secondaryKey].label} may color how this shows up.` : "");
+      el("a-contextText").textContent = slip.context;
+      el("a-counselText").textContent = slip.counsel;
+
+      softChime("reveal");
+      setTimeout(()=> setStepA("counsel"), 800);
+    }
+    aContinueToSlipBtn.addEventListener("click", showSlipA);
+
+    // A save/reset
+    el("a-saveBtn").addEventListener("click", ()=>{
+      const captureArea = el("a-capture-frame");
+      html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'HeartToHeart_ISA_ReflectionSlip.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    });
+    el("a-resetBtn").addEventListener("click", clearTraitsA);
+
+    renderTokenDotsA();
+    renderTraitsA();
+    setStepA("token");
+
+    /* =========================
+       EXPERIENCE B LOGIC (deck + reveal + stickers)
+       ========================= */
+    /* =========================
+   HOUSE -> DECK STYLE (B)
+   ========================= */
+const HOUSE_STYLE = {
+  family: {
+    crest: "❦",
+    palette: ["Ivory Silk","Vintage Champagne","Old Manor Taupe","Oat Chapel","Linen Prayer","Ash Rose"],
+    quoteAuthors: ["C.S. Lewis","Erich Fromm","May Sarton","Cheryl Strayed"],
+    mood: { petals: 22, birdRate: 0.45, shimmer: 0.10, layout: "soft" }
+  },
+  religion: {
+    crest: "✶",
+    palette: ["Linen Prayer","Oat Chapel","Ivory Silk","Vintage Champagne","Old Manor Taupe"],
+    quoteAuthors: ["Søren Kierkegaard","C.S. Lewis","Erich Fromm","Hannah Arendt"],
+    mood: { petals: 22, birdRate: 0.40, shimmer: 0.08, layout: "soft" }
+  },
+  media: {
+    crest: "✦",
+    palette: ["Tudor Rose","English Lavender","Biedermeier Blue","Slate Manor","Cemetery Stone"],
+    quoteAuthors: ["Anne Carson","Rainer Maria Rilke","Iris Murdoch","Joan Didion"],
+    mood: { petals: 12, birdRate: 0.25, shimmer: 0.28, layout: "dramatic" }
+  },
+  internet: {
+    crest: "⌁",
+    palette: ["Slate Manor","Cemetery Stone","Pale Concrete","Orchard Ash","Biedermeier Blue"],
+    quoteAuthors: ["Gilles Deleuze","Maurice Blanchot","Hannah Arendt","Iris Murdoch"],
+    mood: { petals: 10, birdRate: 0.20, shimmer: 0.32, layout: "dramatic" }
+  },
+  school: {
+    crest: "✣",
+    palette: ["Slate Manor","Linen Prayer","Old Manor Taupe","Terracotta Sundial","Biedermeier Blue"],
+    quoteAuthors: ["Iris Murdoch","Leonard Koren","May Sarton","Erich Fromm"],
+    mood: { petals: 14, birdRate: 0.30, shimmer: 0.14, layout: "clean" }
+  }
+};
+
+// fallback if user jumps into B without doing A
+function getHouseKeyForB() {
+  return Ritual.primaryKey || "family";
+}
+
+function getStyleForB() {
+  return HOUSE_STYLE[getHouseKeyForB()] || HOUSE_STYLE.family;
+}
+
+const colorPalette = [
+      { name:"Ivory Silk", hex:"#fffdf0", quote:"To love at all is to be vulnerable.", source:"C.S. Lewis", movie:"Shadowlands", book:"The Four Loves" },
+      { name:"Vintage Champagne", hex:"#f5ead0", quote:"Love is not blind; it sees more, not less.", source:"Erich Fromm", movie:"In the Mood for Love", book:"A Lover's Discourse" },
+      { name:"Tudor Rose", hex:"#fce3e3", quote:"Everything that frightens us is something helpless that wants our love.", source:"Rainer Maria Rilke", movie:"The Shape of Water", book:"Letters to a Young Poet" },
+      { name:"English Lavender", hex:"#e8e1f5", quote:"It is not necessary to hurry intimacy.", source:"Anne Carson", movie:"Before Sunset", book:"Eros the Bittersweet" },
+      { name:"Versailles Sage", hex:"#e2ede4", quote:"The world is full of magic things, patiently waiting for our senses to grow sharper.", source:"W.B. Yeats", movie:"Song of the Sea", book:"The Wind Among the Reeds" },
+      { name:"Gilded Moss", hex:"#ecebbd", quote:"The only way to make sense out of change is to plunge into it.", source:"Alan Watts", movie:"Spring, Summer, Fall, Winter... and Spring", book:"The Wisdom of Insecurity" },
+      { name:"Biedermeier Blue", hex:"#e0f0f5", quote:"Loneliness is the poverty of self; solitude is the richness of self.", source:"May Sarton", movie:"Lost in Translation", book:"Journal of a Solitude" },
+      { name:"Old Manor Taupe", hex:"#ede6e1", quote:"Acceptance is a small, quiet room.", source:"Cheryl Strayed", movie:"Nomadland", book:"Tiny Beautiful Things" },
+      { name:"Terracotta Sundial", hex:"#f5e6d3", quote:"Beauty is in things imperfect, impermanent, and incomplete.", source:"Leonard Koren", movie:"Arrietty", book:"The Beauty of the Ordinary" },
+      { name:"Slate Manor", hex:"#e1e6e8", quote:"Love is the extremely difficult realization that something other than oneself is real.", source:"Iris Murdoch", movie:"Eternal Sunshine of the Spotless Mind", book:"The Sovereignty of Good" },
+      { name:"Linen Prayer", hex:"#fcfaf7", quote:"Love is not a relationship between one person and another, but a relationship between a person and love itself.", source:"Søren Kierkegaard", movie:"Still Walking", book:"Works of Love" },
+      { name:"Orchard Ash", hex:"#f0f0f0", quote:"Love, by its very nature, is unworldly.", source:"Hannah Arendt", movie:"A Hidden Life", book:"The Human Condition" },
+      { name:"Cemetery Stone", hex:"#e3e3e3", quote:"To be alone is to be with the world without intermediaries.", source:"Maurice Blanchot", movie:"Taste of Cherry", book:"The Space of Literature" },
+      { name:"Pale Concrete", hex:"#ededeb", quote:"Nothing is missing. Something is simply not added.", source:"Gilles Deleuze", movie:"Columbus", book:"Negotiations" },
+      { name:"Oat Chapel", hex:"#f3eddc", quote:"Love is an act of faith, and whoever is of little faith is also of little love.", source:"Erich Fromm", movie:"Ordet", book:"The Art of Loving" },
+      { name:"Ash Rose", hex:"#e6dede", quote:"Grief is the final manifestation of love.", source:"Joan Didion", movie:"Aftersun", book:"Blue Nights" }
+    ];
+
+    const deckB = el('b-deck-container');
+    const statusB = el('b-status-text');
+    let shuffleStateB = 0;
+
+    function createDeckB() {
+      deckB.innerHTML = "";
+      for (let i = 0; i < 12; i++) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.zIndex = i;
+        const crest = getStyleForB().crest;
+        card.innerHTML = `<div class="card-crest">${crest}</div>`;
+        card.style.transform = `translate(${i * 0.5}px, ${i * 0.5}px)`;
+        card.onclick = () => {
+          if (shuffleStateB < 3) runShuffleB();
+          else if (shuffleStateB === 4) revealCardB();
+        };
+        deckB.appendChild(card);
+      }
+    }
+
+    function runShuffleB() {
+      shuffleStateB++;
+      const cards = deckB.querySelectorAll('.card');
+      cards.forEach((card) => {
+        const rx = (Math.random() - 0.5) * 400;
+        const ry = (Math.random() - 0.5) * 400;
+        const rr = (Math.random() - 0.5) * 100;
+        card.style.transform = `translate(${rx}px, ${ry}px) rotate(${rr}deg)`;
+      });
+      statusB.innerText = `Shuffling Intentions... (${shuffleStateB}/3)`;
+      setTimeout(() => {
+        cards.forEach((card, i) => card.style.transform = `translate(${i * 0.3}px, ${i * 0.3}px) rotate(0deg)`);
+        if (shuffleStateB === 3) setTimeout(fanCardsB, 600);
+      }, 800);
+    }
+
+    function fanCardsB() {
+      const cards = deckB.querySelectorAll('.card');
+      shuffleStateB = 4;
+      statusB.innerText = "Draw your heart's secret";
+
+      const windowWidth = window.innerWidth;
+      let spread, angleStep;
+
+      if (windowWidth < 480) { spread = 22; angleStep = 5; }
+      else if (windowWidth < 1024) { spread = 35; angleStep = 7; }
+      else { spread = 45; angleStep = 9; }
+
+      cards.forEach((card, i) => {
+        const centerOffset = (cards.length - 1) / 2;
+        const angle = (i - centerOffset) * angleStep;
+        const x = (i - centerOffset) * spread;
+        const y = windowWidth < 480 ? 10 : 20;
+        card.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
+      });
+    }
+
+    function revealCardB() {
+      const style = getStyleForB();
+      const pool = colorPalette.filter(c => style.palette.includes(c.name));
+      const data = (pool.length ? pool : colorPalette)[Math.floor(Math.random() * (pool.length ?                 pool : colorPalette).length)];
+      el('b-ritual-screen').style.opacity = '0';
+
+      // set body background to the card color (nice effect)
+      document.body.style.backgroundColor = data.hex;
+
+      setTimeout(() => {
+        el('b-ritual-screen').style.display = 'none';
+        el('b-result-screen').style.display = 'block';
+
+        el('b-quote-text').innerText = data.quote;
+        el('b-quote-source').innerText = `— ${data.source}`;
+        el('b-movie-title').innerText = data.movie;
+        el('b-book-title').innerText = data.book;
+
+        setTimeout(() => { el('b-result-screen').style.opacity = '1'; }, 60);
+      }, 900);
+    }
+
+    // B Save/Reset
+    el("b-saveBtn").addEventListener("click", ()=>{
+      const captureArea = el('b-capture-frame');
+      html2canvas(captureArea, { backgroundColor: null, scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'HeartToHeart_ISA.png';
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    });
+
+    el("b-resetBtn").addEventListener("click", ()=>{
+      // reset B only
+      shuffleStateB = 0;
+      el("b-result-screen").style.display = "none";
+      el("b-result-screen").style.opacity = "0";
+      el("b-ritual-screen").style.display = "block";
+      el("b-ritual-screen").style.opacity = "1";
+      document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue("--cream");
+      statusB.innerText = "Tap the deck to begin";
+      createDeckB();
+      // clear stickers
+      stickersB.length = 0;
+      decorLayerB.innerHTML = "";
+    });
+
+    createDeckB();
+
+    // B Mode + Photo + Stickers (scoped)
+    const cardCanvasB = el("b-cardCanvas");
+    const decorLayerB = el("b-decorLayer");
+    const photoFrameB = el("b-photoFrame");
+    const userPhotoB = el("b-userPhoto");
+    const modeSelectB = el("b-modeSelect");
+    const photoInputB = el("b-photoInput");
+    const photoInputWrapB = el("b-photoInputWrap");
+    const stickerSelectB = el("b-stickerSelect");
+    const stickerSizeB = el("b-stickerSize");
+    const placeStickerBtnB = el("b-placeStickerBtn");
+    const clearStickersBtnB = el("b-clearStickersBtn");
+
+    const stickersB = [];
+    let activeStickerIdB = null;
+
+    function setActiveStickerB(id) {
+      activeStickerIdB = id;
+      decorLayerB.querySelectorAll(".sticker").forEach(elm => {
+        elm.style.outline = (elm.dataset.id === id) ? "1px dashed rgba(197,160,89,0.55)" : "none";
+        elm.style.outlineOffset = "6px";
+      });
+    }
+
+    function setModeB(mode) {
+      const isHybrid = mode === "hybrid";
+      cardCanvasB.dataset.mode = mode;
+      photoInputWrapB.style.display = isHybrid ? "inline-flex" : "none";
+
+      if (!isHybrid) {
+        userPhotoB.removeAttribute("src");
+        userPhotoB.style.display = "none";
+        photoInputB.value = "";
+      } else {
+        userPhotoB.style.display = userPhotoB.src ? "block" : "none";
+      }
+    }
+
+    modeSelectB.addEventListener("change", (e) => setModeB(e.target.value));
+    setModeB(modeSelectB.value);
+
+    photoInputB.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      userPhotoB.src = URL.createObjectURL(file);
+      userPhotoB.style.display = "block";
+    });
+
+    function clampToCanvasB(x, y, elNode) {
+      const host = decorLayerB.getBoundingClientRect();
+      const rect = elNode.getBoundingClientRect();
+      const halfW = rect.width / 2;
+      const halfH = rect.height / 2;
+      return {
+        x: Math.max(halfW, Math.min(host.width - halfW, x)),
+        y: Math.max(halfH, Math.min(host.height - halfH, y)),
+      };
+    }
+
+    function removeStickerB(id) {
+      const idx = stickersB.findIndex((s) => s.id === id);
+      if (idx !== -1) stickersB.splice(idx, 1);
+      const elNode = decorLayerB.querySelector(`[data-id="${id}"]`);
+      if (elNode) elNode.remove();
+    }
+
+    function applyTransformB(elNode, s) {
+      elNode.style.transform = `translate(-50%,-50%) rotate(${s.rot}deg) scale(${s.scale})`;
+    }
+
+    function makeTransformableB(elNode, s) {
+      let dragging = false;
+      let rotateMode = false; // ALT
+      let scaleMode = false;  // SHIFT
+      let startAngle = 0;
+      let startRot = 0;
+      let startY = 0;
+      let startScale = 1;
+
+      let gestureActive = false;
+      let startDist = 0;
+      let startGestureAngle = 0;
+
+      const getCenter = () => {
+        const r = elNode.getBoundingClientRect();
+        return { cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
+      };
+
+      const angleBetween = (p1, p2) => Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+      const distBetween = (p1, p2) => Math.hypot(p2.x - p1.x, p2.y - p1.y);
+      const clampScale = (v) => Math.max(0.35, Math.min(3.2, v));
+
+      function onDown(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        elNode.setPointerCapture?.(e.pointerId);
+
+        setActiveStickerB(s.id);
+
+        dragging = true;
+        rotateMode = e.altKey === true;
+        scaleMode = e.shiftKey === true;
+
+        if (rotateMode) {
+          const { cx, cy } = getCenter();
+          startAngle = angleBetween({ x: cx, y: cy }, { x: e.clientX, y: e.clientY });
+          startRot = s.rot;
+        }
+
+        if (scaleMode) {
+          startY = e.clientY;
+          startScale = s.scale;
+        }
+
+        elNode.style.cursor = "grabbing";
+      }
+
+      function onMove(e) {
+        if (!dragging) return;
+        const host = decorLayerB.getBoundingClientRect();
+
+        if (scaleMode) {
+          const dy = (startY - e.clientY);
+          const factor = 1 + (dy / 220);
+          s.scale = clampScale(startScale * factor);
+          applyTransformB(elNode, s);
+          return;
+        }
+
+        if (rotateMode) {
+          const { cx, cy } = getCenter();
+          const a = angleBetween({ x: cx, y: cy }, { x: e.clientX, y: e.clientY });
+          s.rot = startRot + (a - startAngle);
+          applyTransformB(elNode, s);
+          return;
+        }
+
+        const x = e.clientX - host.left;
+        const y = e.clientY - host.top;
+        const clamped = clampToCanvasB(x, y, elNode);
+
+        elNode.style.left = clamped.x + "px";
+        elNode.style.top = clamped.y + "px";
+        s.xPct = clamped.x / host.width;
+        s.yPct = clamped.y / host.height;
+      }
+
+      function onUp(e) {
+        dragging = false;
+        rotateMode = false;
+        scaleMode = false;
+        elNode.releasePointerCapture?.(e.pointerId);
+        elNode.style.cursor = "grab";
+      }
+
+      function onWheel(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        setActiveStickerB(s.id);
+
+        const delta = -e.deltaY;
+        const step = delta > 0 ? 1.08 : 0.92;
+        s.scale = clampScale(s.scale * step);
+        applyTransformB(elNode, s);
+      }
+
+      function onTouchStart(e) {
+        if (e.touches.length === 2) {
+          e.preventDefault();
+          e.stopPropagation();
+          setActiveStickerB(s.id);
+
+          gestureActive = true;
+          const p1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+          const p2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
+          startDist = distBetween(p1, p2);
+          startGestureAngle = angleBetween(p1, p2);
+          startScale = s.scale;
+          startRot = s.rot;
+        }
+      }
+
+      function onTouchMove(e) {
+        if (!gestureActive || e.touches.length !== 2) return;
+        e.preventDefault();
+
+        const p1 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        const p2 = { x: e.touches[1].clientX, y: e.touches[1].clientY };
+
+        const d = distBetween(p1, p2);
+        const a = angleBetween(p1, p2);
+
+        const ratio = d / Math.max(1, startDist);
+        s.scale = clampScale(startScale * ratio);
+        s.rot = startRot + (a - startGestureAngle);
+
+        applyTransformB(elNode, s);
+      }
+
+      function onTouchEnd(e) {
+        if (e.touches.length < 2) gestureActive = false;
+      }
+
+      elNode.addEventListener("pointerdown", onDown);
+      window.addEventListener("pointermove", onMove);
+      window.addEventListener("pointerup", onUp);
+      elNode.addEventListener("wheel", onWheel, { passive: false });
+      elNode.addEventListener("touchstart", onTouchStart, { passive: false });
+      elNode.addEventListener("touchmove", onTouchMove, { passive: false });
+      elNode.addEventListener("touchend", onTouchEnd);
+      elNode.style.cursor = "grab";
+    }
+
+    function addStickerAtPxB(x, y) {
+      const emoji = stickerSelectB.value || "🩷";
+      const size = Number(stickerSizeB.value || 34);
+
+      const elNode = document.createElement("div");
+      elNode.className = "sticker";
+      elNode.textContent = emoji;
+      elNode.style.fontSize = size + "px";
+
+      const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
+      elNode.dataset.id = id;
+
+      const s = { id, emoji, sizePx: size, xPct: 0.5, yPct: 0.5, rot: 0, scale: 1 };
+      stickersB.push(s);
+
+      decorLayerB.appendChild(elNode);
+
+      const host = decorLayerB.getBoundingClientRect();
+      const clamped = clampToCanvasB(x, y, elNode);
+      elNode.style.left = clamped.x + "px";
+      elNode.style.top = clamped.y + "px";
+      s.xPct = clamped.x / host.width;
+      s.yPct = clamped.y / host.height;
+
+      applyTransformB(elNode, s);
+      makeTransformableB(elNode, s);
+
+      elNode.addEventListener("contextmenu", (ev) => { ev.preventDefault(); removeStickerB(id); });
+    }
+
+    decorLayerB.addEventListener("pointerdown", (e) => {
+      if (e.target.classList?.contains("sticker")) return;
+      const r = decorLayerB.getBoundingClientRect();
+      addStickerAtPxB(e.clientX - r.left, e.clientY - r.top);
+    });
+
+    placeStickerBtnB.addEventListener("click", () => {
+      const r = decorLayerB.getBoundingClientRect();
+      addStickerAtPxB(r.width / 2, r.height / 2);
+    });
+
+    clearStickersBtnB.addEventListener("click", () => {
+      stickersB.length = 0;
+      decorLayerB.innerHTML = "";
+    });
+
+    function rerenderStickersB(){
+      const host = decorLayerB.getBoundingClientRect();
+      for (const s of stickersB) {
+        let elNode = decorLayerB.querySelector(`[data-id="${s.id}"]`);
+        if (!elNode) {
+          elNode = document.createElement("div");
+          elNode.className = "sticker";
+          elNode.dataset.id = s.id;
+          elNode.textContent = s.emoji;
+          decorLayerB.appendChild(elNode);
+          makeTransformableB(elNode, s);
+          elNode.addEventListener("contextmenu", (ev) => { ev.preventDefault(); removeStickerB(s.id); });
+        }
+        elNode.style.fontSize = s.sizePx + "px";
+        elNode.style.left = (s.xPct * host.width) + "px";
+        elNode.style.top  = (s.yPct * host.height) + "px";
+        applyTransformB(elNode, s);
+      }
+    }
+    window.addEventListener("resize", rerenderStickersB);
+
+    // start on home
+    showView("home");
+    updateAllSoundButtons();
+  </script>
+</body>
+</html>
